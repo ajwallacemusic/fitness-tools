@@ -1,6 +1,6 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from fitness_core.common import Aggressiveness
-from fitness_core.units import Mass, MassUnit
+from fitness_core.units import Mass, MassUnit, LB_TO_KG
 from fitness_core.plates import nearest_loadable, warmup_ramp
 from tools._models import Example
 from tools._registry import Tool, register
@@ -17,7 +17,9 @@ DEFAULT_PLATES_LB = [45, 35, 25, 10, 5, 2.5]
 class PowerliftingAttemptsInput(BaseModel):
     one_rep_max: Mass
     bar_weight: Mass | None = None
-    available_plates: list[float] | None = None
+    available_plates: list[float] | None = Field(
+        default=None,
+        description="Plate denominations per side, in the same unit as one_rep_max.")
     aggressiveness: Aggressiveness = Aggressiveness.STANDARD
 
 
@@ -42,14 +44,20 @@ class PowerliftingAttemptsOutput(BaseModel):
     attempts: Attempts
     warmups: list[WarmupSet]
     bar_weight: float
-    unit: str
+    unit: MassUnit
     aggressiveness: Aggressiveness
+
+
+def _mass_in_unit(m: Mass, unit: MassUnit) -> float:
+    if m.unit == unit:
+        return m.value
+    return m.kg if unit == MassUnit.KG else m.kg / LB_TO_KG
 
 
 def compute(inp: PowerliftingAttemptsInput) -> PowerliftingAttemptsOutput:
     unit = inp.one_rep_max.unit
     orm = inp.one_rep_max.value
-    bar = inp.bar_weight.value if inp.bar_weight is not None else (
+    bar = _mass_in_unit(inp.bar_weight, unit) if inp.bar_weight is not None else (
         20.0 if unit == MassUnit.KG else 45.0)
     plates = inp.available_plates if inp.available_plates is not None else (
         DEFAULT_PLATES_KG if unit == MassUnit.KG else DEFAULT_PLATES_LB)
@@ -65,7 +73,7 @@ def compute(inp: PowerliftingAttemptsInput) -> PowerliftingAttemptsOutput:
                for (w, r, ps) in warmup_ramp(opener.weight, bar, plates)]
     return PowerliftingAttemptsOutput(
         attempts=attempts, warmups=warmups, bar_weight=bar,
-        unit=unit.value, aggressiveness=inp.aggressiveness)
+        unit=unit, aggressiveness=inp.aggressiveness)
 
 
 TOOL = Tool(

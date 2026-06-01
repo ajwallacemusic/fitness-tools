@@ -42,3 +42,36 @@ def test_consensus_when_both_run():
         sessions_per_week=4, session_minutes=60, intensity="moderate", occupation="desk",
     ))
     assert out.consensus is not None and out.consensus.n == 2
+
+def test_neat_source_reported():
+    occ = compute(ActivityMultiplierInput(
+        bmr=1780, weight={"value": 80, "unit": "kg"}, sessions_per_week=4,
+        session_minutes=60, intensity="moderate", occupation="desk"))
+    assert next(r for r in occ.results if r.method == "neat-eat").detail["neat_source"] == "occupation"
+    st = compute(ActivityMultiplierInput(
+        bmr=1780, weight={"value": 80, "unit": "kg"}, sessions_per_week=4,
+        session_minutes=60, intensity="moderate", steps_per_day=8000))
+    assert next(r for r in st.results if r.method == "neat-eat").detail["neat_source"] == "steps"
+
+def test_heavy_occupation_neat():
+    out = compute(ActivityMultiplierInput(
+        bmr=1780, weight={"value": 80, "unit": "kg"}, sessions_per_week=4,
+        session_minutes=60, intensity="moderate", occupation="heavy"))
+    assert next(r for r in out.results if r.method == "neat-eat").detail["neat_kcal"] == 1246
+
+def test_vigorous_intensity_eat():
+    out = compute(ActivityMultiplierInput(
+        bmr=1780, weight={"value": 80, "unit": "kg"}, sessions_per_week=4,
+        session_minutes=60, intensity="vigorous", occupation="desk"))
+    assert next(r for r in out.results if r.method == "neat-eat").detail["eat_kcal"] == 384
+
+def test_skip_reason_text():
+    out = compute(ActivityMultiplierInput(activity_level="moderate"))
+    reason = next(s.reason for s in out.skipped if s.method == "neat-eat")
+    assert "requires bmr" in reason
+
+def test_consensus_mean_when_both_run():
+    out = compute(ActivityMultiplierInput(
+        activity_level="moderate", bmr=1780, weight={"value": 80, "unit": "kg"},
+        sessions_per_week=4, session_minutes=60, intensity="moderate", occupation="desk"))
+    assert out.consensus.mean == pytest.approx(1.431, abs=0.001)

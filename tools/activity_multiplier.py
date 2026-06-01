@@ -46,10 +46,13 @@ def _neat_eat(inp: ActivityMultiplierInput):
                            inp.intensity, inp.weight.kg)
     if inp.steps_per_day is not None:
         neat = neat_from_steps(inp.steps_per_day, inp.weight.kg)
+        neat_source = "steps"
     else:
         neat = neat_from_occupation(inp.occupation, inp.bmr)
+        neat_source = "occupation"
     tdee = inp.bmr + neat + eat
-    detail = {"neat_kcal": round(neat), "eat_kcal": round(eat), "tdee_kcal": round(tdee)}
+    detail = {"neat_kcal": round(neat), "eat_kcal": round(eat),
+              "tdee_kcal": round(tdee), "neat_source": neat_source}
     return tdee / inp.bmr, detail
 
 

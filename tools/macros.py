@@ -33,6 +33,8 @@ def compute(inp: MacrosInput) -> MacrosOutput:
         protein = inp.protein_g_per_kg or _PROTEIN_DEFAULT[inp.goal]
         fat = inp.fat_g_per_kg or 0.9
         split = macros_g_per_kg(inp.calories, inp.weight.kg, protein, fat)
+        # value == detail["calories"]: recomputed kcal total (may exceed inp.calories
+        # if protein+fat already exceed budget and carbs clamp to 0)
         return split["calories"], split
 
     requested = ALL_METHODS if inp.methods == "all" else inp.methods

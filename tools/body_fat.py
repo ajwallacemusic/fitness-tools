@@ -47,6 +47,8 @@ def _detail(inp: BodyFatInput, bf: float) -> dict | None:
 def _bf_value(method: str, inp: BodyFatInput) -> float | None:
     if method == "navy":
         if inp.neck and inp.waist and inp.height:
+            if inp.sex == Sex.FEMALE and inp.hip is None:
+                return None  # hip is a required navy input for females -> skip/explicit-raise
             try:
                 return navy_bf(inp.sex, inp.waist.cm, inp.neck.cm, inp.height.cm,
                                inp.hip.cm if inp.hip else None)
@@ -75,7 +77,7 @@ def compute(inp: BodyFatInput) -> BodyFatOutput:
     requested = ALL_METHODS if inp.methods == "all" else inp.methods
     explicit = inp.methods != "all"
     results, skipped = run_methods(
-        requested, explicit, run, "%", reason_fn=lambda m: _REASONS[m], ndigits=2)
+        requested, explicit, run, "%", reason_fn=lambda m: _REASONS.get(m, f"{m}: required inputs missing"), ndigits=2)
     c = compute_consensus([r.value for r in results])
     return BodyFatOutput(
         results=results,

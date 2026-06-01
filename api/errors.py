@@ -27,3 +27,10 @@ def install_error_handlers(app: FastAPI) -> None:
         type_ = "not_found" if exc.status_code == 404 else "http_error"
         return JSONResponse(status_code=exc.status_code,
                             content=_envelope(type_, str(exc.detail)))
+
+    @app.exception_handler(Exception)
+    async def _unhandled(_: Request, exc: Exception):
+        return JSONResponse(
+            status_code=500,
+            content=_envelope("internal_error", "An unexpected error occurred"),
+        )

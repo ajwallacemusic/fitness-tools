@@ -7,7 +7,7 @@ from api.catalog import build_catalog_router
 
 def _add_tool_route(app: FastAPI, tool: Tool) -> None:
     def make_endpoint(t: Tool):
-        async def endpoint(payload: t.input_model):  # type: ignore[name-defined]
+        def endpoint(payload):  # annotations set below for FastAPI body resolution
             return t.compute(payload)
         endpoint.__annotations__ = {"payload": t.input_model, "return": t.output_model}
         return endpoint
@@ -29,7 +29,7 @@ def build_app() -> FastAPI:
     app = FastAPI(title="Fitness Tools API", version="0.1.0")
     install_error_handlers(app)
 
-    @app.get("/healthz", tags=["meta"])
+    @app.get("/healthz", tags=["meta"], operation_id="healthz", summary="Liveness check")
     def healthz():
         return {"status": "ok"}
 

@@ -29,3 +29,21 @@ def test_unknown_method_raises():
 def test_reports_in_user_unit():
     out = compute(OneRepMaxInput(weight={"value": 225, "unit": "lb"}, reps=3))
     assert all(r.unit == "lb" for r in out.results)
+
+def test_consensus_over_all_methods():
+    out = compute(OneRepMaxInput(weight={"value": 100, "unit": "kg"}, reps=5))
+    assert out.consensus is not None
+    assert out.consensus.n == 6
+    assert out.consensus.mean == pytest.approx(115.8, abs=0.2)
+
+def test_percent_table_load_value():
+    out = compute(OneRepMaxInput(weight={"value": 100, "unit": "kg"}, reps=5))
+    first = out.percent_table[0]
+    assert first["percent"] == 50
+    assert first["load"] == pytest.approx(57.9, abs=0.2)
+
+def test_epley_value_in_lb():
+    out = compute(OneRepMaxInput(weight={"value": 225, "unit": "lb"}, reps=3))
+    epley = next(r for r in out.results if r.method == "epley")
+    assert epley.value == pytest.approx(247.5, abs=0.1)
+    assert epley.unit == "lb"

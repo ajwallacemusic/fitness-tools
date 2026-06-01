@@ -8,6 +8,7 @@ from fitness_core.energy import (
 from fitness_core.errors import DomainError
 from fitness_core.stats import compute_consensus
 from tools._models import MethodResult, SkippedMethod, Consensus, Example
+from tools._dispatch import run_methods
 from tools._registry import Tool, register
 
 ALL_METHODS = ["mifflin", "harris", "katch", "cunningham"]
@@ -54,26 +55,18 @@ def compute(inp: TdeeInput) -> TdeeOutput:
             return cunningham_bmr(lbm) if lbm is not None else None
         raise DomainError(f"unknown method: {method}")
 
+    def run(method: str):
+        bmr = bmr_for(method)
+        if bmr is None:
+            return None
+        return bmr * mult, {"bmr": round(bmr, 1), "multiplier": mult}
+
     requested = ALL_METHODS if inp.methods == "all" else inp.methods
     explicit = inp.methods != "all"
-
-    results: list[MethodResult] = []
-    skipped: list[SkippedMethod] = []
-    for m in requested:
-        if m not in ALL_METHODS:
-            raise DomainError(f"unknown method: {m}")
-        bmr = bmr_for(m)
-        if bmr is None:
-            reason = f"{m}: requires body_fat or lean_mass"
-            if explicit:
-                raise DomainError(reason)
-            skipped.append(SkippedMethod(method=m, reason=reason))
-            continue
-        results.append(MethodResult(
-            method=m, value=round(bmr * mult, 1), unit="kcal/day",
-            detail={"bmr": round(bmr, 1), "multiplier": mult},
-        ))
-
+    results, skipped = run_methods(
+        requested, explicit, run, "kcal/day",
+        reason_fn=lambda m: f"{m}: requires body_fat or lean_mass",
+    )
     c = compute_consensus([r.value for r in results])
     return TdeeOutput(
         results=results,

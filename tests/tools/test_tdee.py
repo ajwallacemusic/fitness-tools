@@ -37,3 +37,14 @@ def test_consensus_present():
 def test_explicit_missing_method_raises():
     with pytest.raises(DomainError):
         compute(_base(methods=["katch"]))
+
+def test_harris_tdee_reference():
+    out = compute(_base())
+    harris = next(r for r in out.results if r.method == "harris")
+    # harris male BMR 1853.632 * 1.55 = 2873.13 (rounded)
+    assert harris.value == pytest.approx(2873.13, abs=0.1)
+
+def test_lean_mass_path_runs_katch():
+    out = compute(_base(lean_mass={"value": 68, "unit": "kg"}))
+    katch = next(r for r in out.results if r.method == "katch")
+    assert katch.value == pytest.approx(2850.14, abs=0.05)

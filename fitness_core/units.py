@@ -3,7 +3,7 @@
 Canonical units: mass -> kg, length -> cm (also exposes mm).
 """
 from enum import Enum
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 
 LB_TO_KG = 0.45359237
 IN_TO_CM = 2.54
@@ -21,6 +21,7 @@ class LengthUnit(str, Enum):
 
 
 class Mass(BaseModel):
+    model_config = ConfigDict(allow_inf_nan=False)
     value: float = Field(gt=0)
     unit: MassUnit = MassUnit.KG
 
@@ -30,6 +31,7 @@ class Mass(BaseModel):
 
 
 class Length(BaseModel):
+    model_config = ConfigDict(allow_inf_nan=False)
     value: float = Field(gt=0)
     unit: LengthUnit = LengthUnit.CM
 

@@ -24,3 +24,26 @@ def test_mass_default_unit_is_kg():
 def test_negative_value_rejected():
     with pytest.raises(ValidationError):
         Mass(value=-5, unit="kg")
+
+def test_length_mm_to_cm():
+    assert Length(value=10, unit="mm").cm == pytest.approx(1.0)
+
+def test_length_default_unit_is_cm():
+    assert Length(value=180).unit == LengthUnit.CM
+
+def test_zero_value_rejected():
+    with pytest.raises(ValidationError):
+        Mass(value=0, unit="kg")
+    with pytest.raises(ValidationError):
+        Length(value=0, unit="cm")
+
+def test_inf_and_nan_rejected():
+    for bad in (float("inf"), float("nan")):
+        with pytest.raises(ValidationError):
+            Mass(value=bad, unit="kg")
+        with pytest.raises(ValidationError):
+            Length(value=bad, unit="cm")
+
+def test_invalid_unit_string_rejected():
+    with pytest.raises(ValidationError):
+        Mass(value=80, unit="stone")

@@ -9,6 +9,9 @@ import starlightTypeDoc, { typeDocSidebarGroup } from "starlight-typedoc";
 export default defineConfig({
   site: "https://ajwallacemusic.github.io",
   base: "/fitness-tools",
+  // starlight-typedoc emits its index at reference/readme/, so make the clean
+  // /reference/ URL (linked from the landing hero) resolve there.
+  redirects: { "/reference": "/reference/readme/" },
   integrations: [
     starlight({
       title: "Fitness Tools",

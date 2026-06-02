@@ -27,6 +27,9 @@ function registerTool(server: McpServer, tool: Tool): void {
           structuredContent: result,
         };
       } catch (err) {
+        // Input ZodErrors are handled upstream by the SDK (it validates args
+        // against inputSchema before calling this handler); only DomainError
+        // from compute() reaches here.
         if (err instanceof DomainError) {
           return {
             isError: true,

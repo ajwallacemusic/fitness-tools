@@ -43,6 +43,23 @@ curl -s localhost:8080/v1/tools/tdee \
   -d '{"sex":"male","age":30,"height":{"value":180,"unit":"cm"},"weight":{"value":80,"unit":"kg"},"activity":"moderate"}'
 ```
 
+A run returns each method's result plus a consensus; methods whose inputs are missing
+appear under `skipped` (here, the LBM-based methods without `body_fat`/`lean_mass`):
+
+```json
+{
+  "results": [
+    { "method": "mifflin", "value": 2759, "unit": "kcal/day", "detail": { "bmr": 1780, "multiplier": 1.55 } },
+    { "method": "harris", "value": 2873.1, "unit": "kcal/day", "detail": { "bmr": 1853.6, "multiplier": 1.55 } }
+  ],
+  "consensus": { "mean": 2816.05, "median": 2816.05, "min": 2759, "max": 2873.1, "n": 2 },
+  "skipped": [
+    { "method": "katch", "reason": "katch: requires body_fat or lean_mass" },
+    { "method": "cunningham", "reason": "cunningham: requires body_fat or lean_mass" }
+  ]
+}
+```
+
 Open **http://localhost:8080/docs** for the interactive reference.
 
 ## Errors

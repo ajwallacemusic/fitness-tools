@@ -9,7 +9,7 @@ Composable, deterministic fitness calculators — BMR/TDEE, body fat, 1RM, macro
 multiplier, powerlifting attempts, and natural muscular potential. Each calculator runs
 several published formulas and reports a consensus across them.
 
-This repo ships **two separate, independently-usable artifacts**:
+This repo ships **three separate, independently-usable artifacts**:
 
 - **[`@almostjacked/fitness-tools`](packages/core)** — the npm **library**. Validated,
   self-describing calculators that run natively in the browser and on the server. **This is
@@ -17,6 +17,9 @@ This repo ships **two separate, independently-usable artifacts**:
 - **[`@almostjacked/fitness-tools-api`](apps/api)** — a **reference HTTP server** built on the library.
   It re-exposes the same calculators over HTTP (identical math, identical results) and is
   inert until you run or host it.
+- **[`@almostjacked/fitness-tools-mcp`](apps/mcp)** — an **MCP stdio server** built on the library.
+  It exposes the same calculators as MCP tools for agents/LLM clients (identical math), runnable
+  with `npx @almostjacked/fitness-tools-mcp`.
 
 ## Which one do you want?
 
@@ -24,7 +27,8 @@ This repo ships **two separate, independently-usable artifacts**:
 |---|---|---|
 | Writing JS/TS (browser, Node, edge) | **`@almostjacked/fitness-tools`** (npm) | Runs in-process. Install, import, call. No server, no network. |
 | Calling from another language / `curl` / a no-code tool | **`@almostjacked/fitness-tools-api`** (HTTP) | Same calculators over HTTP. You run/host it. |
-| Building a remote frontend or an agent/LLM tool | **`@almostjacked/fitness-tools-api`** | Self-describing catalog + OpenAPI over the wire. |
+| Building a remote frontend | **`@almostjacked/fitness-tools-api`** | Self-describing catalog + OpenAPI over the wire. |
+| Wiring the calculators into an MCP client / agent | **`@almostjacked/fitness-tools-mcp`** | `npx` an MCP stdio server; one tool per calculator. |
 
 > The API adds a network boundary, not capability. The package works the moment you install
 > it; the server does nothing until it's running.
@@ -34,13 +38,14 @@ This repo ships **two separate, independently-usable artifacts**:
 ```
 packages/core   @almostjacked/fitness-tools — the library (the product)
 apps/api        @almostjacked/fitness-tools-api  — a reference HTTP server over the library
+apps/mcp        @almostjacked/fitness-tools-mcp  — an MCP stdio server over the library
 ```
 
 ## Develop
 
 ```bash
 pnpm install
-pnpm -r test                 # core + api test suites
+pnpm -r test                 # core + api + mcp test suites
 pnpm -C packages/core build  # build the library
 pnpm -C apps/api dev         # run the reference server on :8080
 ```

@@ -1,0 +1,55 @@
+{
+  "name": "@almostjacked/fitness-tools-mcp",
+  "version": "0.0.0",
+  "description": "MCP (Model Context Protocol) stdio server for the fitness-tools calculators.",
+  "type": "module",
+  "bin": {
+    "fitness-tools-mcp": "dist/main.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "prepack": "tsc -p tsconfig.json",
+    "start": "node dist/main.js",
+    "dev": "tsx watch src/main.ts",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit -p tsconfig.json"
+  },
+  "dependencies": {
+    "@almostjacked/fitness-tools": "workspace:*",
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsx": "^4.16.0",
+    "typescript": "^5.5.0",
+    "vitest": "^2.0.0"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "license": "MIT",
+  "author": "AJ Wallace <ajwallacemusic@gmail.com>",
+  "homepage": "https://github.com/ajwallacemusic/fitness-tools/tree/main/apps/mcp#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ajwallacemusic/fitness-tools.git",
+    "directory": "apps/mcp"
+  },
+  "bugs": {
+    "url": "https://github.com/ajwallacemusic/fitness-tools/issues"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "fitness",
+    "tdee",
+    "calculator"
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -23,6 +23,7 @@ function greedyFill(perSide: number, platesDesc: number[]): number[] {
   return used;
 }
 
+/** Closest barbell load to a target using the given bar weight and per-side plate set. */
 export function nearestLoadable(
   target: number,
   bar: number,
@@ -39,6 +40,7 @@ export function nearestLoadable(
   return { weight: below, plates: [...used].sort((a, b) => b - a) };
 }
 
+/** Warm-up set ramp (loadable weights, reps, and plates) leading up to an opener weight. */
 export function warmupRamp(opener: number, bar: number, plates: number[]): WarmupSet[] {
   const out: WarmupSet[] = [];
   let last: number | null = null;

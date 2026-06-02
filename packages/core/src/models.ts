@@ -1,5 +1,6 @@
 import { z } from "zod";
 
+/** One formula's result: method name, numeric value, unit, and optional detail. */
 export const MethodResultSchema = z.object({
   method: z.string(),
   value: z.number(),
@@ -8,12 +9,14 @@ export const MethodResultSchema = z.object({
 });
 export type MethodResult = z.output<typeof MethodResultSchema>;
 
+/** A method that was not run, with the reason (e.g. missing inputs). */
 export const SkippedMethodSchema = z.object({
   method: z.string(),
   reason: z.string(),
 });
 export type SkippedMethod = z.output<typeof SkippedMethodSchema>;
 
+/** Consensus across method values: mean, median, min, max, and count n. */
 export const ConsensusSchema = z.object({
   mean: z.number(),
   median: z.number(),

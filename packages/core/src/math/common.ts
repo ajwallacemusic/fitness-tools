@@ -28,6 +28,7 @@ const MULTIPLIERS: Record<ActivityLevel, number> = {
   very_active: 1.9,
 };
 
+/** TDEE activity multiplier for an {@link ActivityLevel}; a raw number passes through unchanged. */
 export function activityMultiplier(activity: ActivityLevel | number): number {
   return typeof activity === "number" ? activity : MULTIPLIERS[activity];
 }

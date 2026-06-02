@@ -2,10 +2,12 @@ import type { Sex } from "./common.js";
 
 const log10 = Math.log10;
 
+/** Siri (1961) equation: body-fat % from body density. */
 export function siri(density: number): number {
   return 495 / density - 450;
 }
 
+/** US Navy circumference method: body-fat %, from cm girths (hip required for female). */
 export function navyBf(
   sex: Sex,
   waistCm: number,
@@ -30,6 +32,7 @@ export function navyBf(
   return siri(d);
 }
 
+/** Jackson-Pollock 3-site skinfold density + Siri: body-fat %, from skinfold sum (mm). */
 export function jacksonPollock3(sex: Sex, sumMm: number, age: number): number {
   const density =
     sex === "male"
@@ -38,6 +41,7 @@ export function jacksonPollock3(sex: Sex, sumMm: number, age: number): number {
   return siri(density);
 }
 
+/** Deurenberg (1991) BMI-based body-fat % estimate. */
 export function deurenberg(sex: Sex, bmi: number, age: number): number {
   const sexf = sex === "male" ? 1 : 0;
   return 1.2 * bmi + 0.23 * age - 10.8 * sexf - 5.4;

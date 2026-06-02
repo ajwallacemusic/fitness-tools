@@ -1,5 +1,6 @@
 import type { z } from "zod";
 
+/** A self-describing calculator: Zod input/output schemas, examples, and a compute(). */
 export interface Tool<I = any, O = any> {
   id: string;
   name: string;
@@ -16,8 +17,10 @@ export interface Tool<I = any, O = any> {
   examples: { input: unknown; output: unknown }[];
 }
 
+/** All registered tools, keyed by id. */
 export const REGISTRY = new Map<string, Tool>();
 
+/** Add a tool to the {@link REGISTRY}; throws on a duplicate id. Returns the tool. */
 export function register<I, O>(tool: Tool<I, O>): Tool<I, O> {
   if (REGISTRY.has(tool.id)) throw new Error(`duplicate tool id: ${tool.id}`);
   REGISTRY.set(tool.id, tool);

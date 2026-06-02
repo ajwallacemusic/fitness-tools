@@ -2,10 +2,12 @@ import { LB_TO_KG } from "./units.js";
 
 const CM_TO_IN = 1 / 2.54;
 
+/** Total weight (kg) at a target body-fat % given fat-free mass (kg). */
 export function weightAtBf(ffmKg: number, targetBfPct: number): number {
   return ffmKg / (1 - targetBfPct / 100);
 }
 
+/** Casey Butt's maximum drug-free fat-free mass (kg) from height/wrist/ankle (cm) and target body-fat %. */
 export function caseyButtFfmKg(
   heightCm: number,
   wristCm: number,
@@ -22,10 +24,12 @@ export function caseyButtFfmKg(
   return lbmLb * LB_TO_KG;
 }
 
+/** Natural fat-free mass (kg) ceiling implied by an FFMI of 25, from height (cm). */
 export function ffmiCapFfmKg(heightCm: number): number {
   return 25 * (heightCm / 100) ** 2;
 }
 
+/** Martin Berkhan's "contest-shape" fat-free mass (kg) heuristic from height (cm). */
 export function berkhanFfmKg(heightCm: number): number {
   return (heightCm - 100) * (1 - 0.055);
 }

@@ -3,6 +3,8 @@
 [![CI](https://github.com/ajwallacemusic/fitness-tools/actions/workflows/ci.yml/badge.svg)](https://github.com/ajwallacemusic/fitness-tools/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
+📖 **[Documentation](https://ajwallacemusic.github.io/fitness-tools/)** · [npm](https://www.npmjs.com/package/@almostjacked/fitness-tools)
+
 Composable, deterministic fitness calculators — BMR/TDEE, body fat, 1RM, macros, activity
 multiplier, powerlifting attempts, and natural muscular potential. Each calculator runs
 several published formulas and reports a consensus across them.

@@ -1,0 +1,24 @@
+---
+title: Fitness Tools
+description: Validated, self-describing fitness calculators for TypeScript.
+template: splash
+hero:
+  tagline: Validated, self-describing fitness calculators — runs natively in the browser and on the server.
+  actions:
+    - text: Quick start
+      link: /fitness-tools/guides/quick-start/
+      icon: right-arrow
+    - text: API Reference
+      link: /fitness-tools/reference/
+      icon: open-book
+      variant: minimal
+---
+
+import { CardGrid, Card } from "@astrojs/starlight/components";
+
+<CardGrid>
+  <Card title="Validated" icon="approve-check">Zod-validated input; one definition gives types, validation, and schemas.</Card>
+  <Card title="Multi-method" icon="bars">Several published formulas per metric, with a consensus across them.</Card>
+  <Card title="Isomorphic" icon="laptop">Runs in the browser and on the server. One small dependency (zod).</Card>
+  <Card title="Self-describing" icon="document">The same schemas power the HTTP API catalog and OpenAPI.</Card>
+</CardGrid>

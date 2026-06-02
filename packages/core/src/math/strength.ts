@@ -5,6 +5,7 @@ export const ORM_METHODS = [
 ] as const;
 export type OrmMethod = (typeof ORM_METHODS)[number];
 
+/** Estimate one-rep max from a weight x reps set, using the named formula (see {@link ORM_METHODS}). */
 export function oneRepMax(method: string, weight: number, reps: number): number {
   switch (method) {
     case "epley":
@@ -30,6 +31,7 @@ export interface PercentRow {
   load: number;
 }
 
+/** %1RM load chart from 50% to 100% in 5% steps, given a one-rep max. */
 export function percentTable(oneRm: number): PercentRow[] {
   const rows: PercentRow[] = [];
   for (let p = 50; p < 105; p += 5) {

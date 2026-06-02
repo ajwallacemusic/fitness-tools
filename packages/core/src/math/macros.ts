@@ -9,6 +9,7 @@ export interface MacroSplit {
   calories: number;
 }
 
+/** Macro split (grams): protein and fat set by g/kg bodyweight, carbs fill the calorie budget. */
 export function macrosGPerKg(
   calories: number,
   kg: number,

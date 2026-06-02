@@ -1,0 +1,6 @@
+dist/
+.astro/
+src/openapi.json
+# starlight-typedoc generates the API reference markdown here at build time.
+src/content/docs/reference/
+node_modules/

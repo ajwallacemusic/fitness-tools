@@ -21,4 +21,7 @@ export const ConsensusSchema = z.object({
   max: z.number(),
   n: z.number().int(),
 });
-export type Consensus = z.output<typeof ConsensusSchema>;
+// Single source of truth for the Consensus shape lives in math/stats.ts
+// (computeConsensus returns it). Re-export here so the public barrel exposes
+// one `Consensus` symbol and ConsensusSchema.parse() output stays compatible.
+export type { Consensus } from "./math/stats.js";

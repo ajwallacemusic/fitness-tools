@@ -7,8 +7,11 @@ export interface Tool<I = any, O = any> {
   category: string;
   tags: string[];
   methods: string[];
-  input: z.ZodType<I>;
-  output: z.ZodType<O>;
+  // The third type param (the schema's INPUT) is left as `unknown` so schemas
+  // that use .default()/nullable-with-default — whose parse-input type differs
+  // from their z.output type — are still assignable. `I`/`O` track z.output.
+  input: z.ZodType<I, z.ZodTypeDef, unknown>;
+  output: z.ZodType<O, z.ZodTypeDef, unknown>;
   compute: (input: I) => O;
   examples: { input: unknown; output: unknown }[];
 }

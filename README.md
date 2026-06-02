@@ -23,6 +23,11 @@ Composable, self-describing, deterministic fitness calculators over HTTP.
 - `one-rep-max` — Epley / Brzycki / Lombardi / Wathan / O'Conner / Mayhew
 - `macros` — g-per-kg split
 
+## Tools (Phase 2)
+- `activity-multiplier` — lookup table / NEAT+EAT model, with consensus
+- `powerlifting-attempts` — opener/second/third attempts + warmup ramp + per-side plate loads
+- `muscle-potential` — Casey-Butt / FFMI-cap / Berkhan, with consensus
+
 ## Deploy (GCP Cloud Run, scale-to-zero)
     gcloud run deploy fitness-tools-api \
       --source . --region us-central1 \

@@ -56,4 +56,19 @@ describe("api routes", () => {
     expect(r.status).toBe(404);
     expect((await r.json()).error.type).toBe("not_found");
   });
+  test("GET /openapi.json returns the OpenAPI document", async () => {
+    const r = await get("/openapi.json");
+    expect(r.status).toBe(200);
+    const doc = (await r.json()) as any;
+    expect(doc.openapi).toBe("3.0.3");
+    expect(doc.paths["/v1/tools/tdee"].post.operationId).toBe("runTdee");
+  });
+
+  test("GET /docs serves the Scalar UI", async () => {
+    const r = await get("/docs");
+    expect(r.status).toBe(200);
+    expect(r.headers.get("content-type") ?? "").toContain("text/html");
+    const html = await r.text();
+    expect(html).toContain("/openapi.json"); // the UI loads the spec by URL
+  });
 });

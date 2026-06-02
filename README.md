@@ -9,10 +9,10 @@ several published formulas and reports a consensus across them.
 
 This repo ships **two separate, independently-usable artifacts**:
 
-- **[`@fitness-tools/core`](packages/core)** — the npm **library**. Validated,
+- **[`@almostjacked/fitness-tools`](packages/core)** — the npm **library**. Validated,
   self-describing calculators that run natively in the browser and on the server. **This is
   the product.**
-- **[`@fitness-tools/api`](apps/api)** — a **reference HTTP server** built on the library.
+- **[`@almostjacked/fitness-tools-api`](apps/api)** — a **reference HTTP server** built on the library.
   It re-exposes the same calculators over HTTP (identical math, identical results) and is
   inert until you run or host it.
 
@@ -20,9 +20,9 @@ This repo ships **two separate, independently-usable artifacts**:
 
 | You're… | Use | Why |
 |---|---|---|
-| Writing JS/TS (browser, Node, edge) | **`@fitness-tools/core`** (npm) | Runs in-process. Install, import, call. No server, no network. |
-| Calling from another language / `curl` / a no-code tool | **`@fitness-tools/api`** (HTTP) | Same calculators over HTTP. You run/host it. |
-| Building a remote frontend or an agent/LLM tool | **`@fitness-tools/api`** | Self-describing catalog + OpenAPI over the wire. |
+| Writing JS/TS (browser, Node, edge) | **`@almostjacked/fitness-tools`** (npm) | Runs in-process. Install, import, call. No server, no network. |
+| Calling from another language / `curl` / a no-code tool | **`@almostjacked/fitness-tools-api`** (HTTP) | Same calculators over HTTP. You run/host it. |
+| Building a remote frontend or an agent/LLM tool | **`@almostjacked/fitness-tools-api`** | Self-describing catalog + OpenAPI over the wire. |
 
 > The API adds a network boundary, not capability. The package works the moment you install
 > it; the server does nothing until it's running.
@@ -30,8 +30,8 @@ This repo ships **two separate, independently-usable artifacts**:
 ## Layout
 
 ```
-packages/core   @fitness-tools/core — the library (the product)
-apps/api        @fitness-tools/api  — a reference HTTP server over the library
+packages/core   @almostjacked/fitness-tools — the library (the product)
+apps/api        @almostjacked/fitness-tools-api  — a reference HTTP server over the library
 ```
 
 ## Develop

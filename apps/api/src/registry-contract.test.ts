@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import { REGISTRY } from "@fitness-tools/core";
+import { REGISTRY } from "@almostjacked/fitness-tools";
 import { buildApp } from "./app.js";
 
 const app = buildApp();

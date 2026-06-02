@@ -1,13 +1,13 @@
-# @fitness-tools/api
+# @almostjacked/fitness-tools-api
 
-A **reference HTTP server** over [`@fitness-tools/core`](../../packages/core). It does
+A **reference HTTP server** over [`@almostjacked/fitness-tools`](../../packages/core). It does
 nothing on its own — it only produces value once you **run or host it**. It re-exposes the
 same calculators over HTTP (identical math, identical results) for clients that can't
 `npm install` a TypeScript package: other languages, `curl`, no-code tools, a remote
 frontend, an agent.
 
 > **Writing JS/TS?** You almost certainly want the library —
-> [`@fitness-tools/core`](../../packages/core) — instead. It runs in-process with no server,
+> [`@almostjacked/fitness-tools`](../../packages/core) — instead. It runs in-process with no server,
 > no network, and no hosting. Reach for this server only when you need the calculators over
 > HTTP from a non-JS or remote client.
 

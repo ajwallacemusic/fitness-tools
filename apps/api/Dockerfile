@@ -15,7 +15,7 @@ COPY apps/api apps/api
 RUN pnpm -C packages/core build && pnpm -C apps/api build
 # --legacy: pnpm 10+ otherwise refuses to deploy a workspace that is not set up
 # with inject-workspace-packages; --legacy copies the linked workspace dep instead.
-RUN pnpm --filter @fitness-tools/api deploy --prod --legacy /out
+RUN pnpm --filter @almostjacked/fitness-tools-api deploy --prod --legacy /out
 
 FROM node:22-slim AS runtime
 WORKDIR /app

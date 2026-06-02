@@ -1,5 +1,5 @@
 import { zodToJsonSchema } from "zod-to-json-schema";
-import { REGISTRY, type Tool } from "@fitness-tools/core";
+import { REGISTRY, type Tool } from "@almostjacked/fitness-tools";
 
 export interface CatalogEntry {
   id: string;

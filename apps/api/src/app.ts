@@ -1,6 +1,6 @@
 import { Hono } from "hono";
 import { Scalar } from "@scalar/hono-api-reference";
-import { REGISTRY } from "@fitness-tools/core";
+import { REGISTRY } from "@almostjacked/fitness-tools";
 import { installErrorHandler, envelope } from "./errors.js";
 import { fullCatalog, toCatalogEntry } from "./catalog.js";
 import { buildOpenApiDocument } from "./openapi.js";

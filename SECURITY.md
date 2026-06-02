@@ -14,11 +14,11 @@ will be coordinated before public disclosure.
 ## Supported versions
 
 This project is pre-1.0. Security fixes are applied to the **latest published version** of
-`@fitness-tools/core`. Please upgrade to the latest release before reporting.
+`@almostjacked/fitness-tools`. Please upgrade to the latest release before reporting.
 
 ## Scope
 
-`@fitness-tools/core` is a pure, deterministic calculation library with no I/O. The most
-relevant concerns are in the reference HTTP server (`@fitness-tools/api`) when you deploy
+`@almostjacked/fitness-tools` is a pure, deterministic calculation library with no I/O. The most
+relevant concerns are in the reference HTTP server (`@almostjacked/fitness-tools-api`) when you deploy
 it — e.g. resource use on unvalidated input. The library validates all tool input via Zod
 schemas before computing.

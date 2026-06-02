@@ -1,22 +1,22 @@
-# @fitness-tools/core
+# @almostjacked/fitness-tools
 
 Validated, self-describing fitness calculators for TypeScript — **runs natively in the
 browser and on the server**. BMR/TDEE, body fat, 1RM, macros, activity multiplier,
 powerlifting attempts, and natural muscular potential, each with multiple methods and a
 consensus across them.
 
-[![npm](https://img.shields.io/npm/v/@fitness-tools/core.svg)](https://www.npmjs.com/package/@fitness-tools/core)
+[![npm](https://img.shields.io/npm/v/@almostjacked/fitness-tools.svg)](https://www.npmjs.com/package/@almostjacked/fitness-tools)
 [![CI](https://github.com/ajwallacemusic/fitness-tools/actions/workflows/ci.yml/badge.svg)](https://github.com/ajwallacemusic/fitness-tools/actions/workflows/ci.yml)
 · Types ✓ · 1 dependency (zod) · MIT
 
 ```bash
-npm i @fitness-tools/core
+npm i @almostjacked/fitness-tools
 ```
 
 ## Quick start
 
 ```ts
-import { REGISTRY } from "@fitness-tools/core";
+import { REGISTRY } from "@almostjacked/fitness-tools";
 
 const tdee = REGISTRY.get("tdee")!;
 const out = tdee.compute(tdee.input.parse({
@@ -32,7 +32,7 @@ const out = tdee.compute(tdee.input.parse({
 Prefer raw functions? They're exported too, fully tree-shakeable:
 
 ```ts
-import { mifflinBmr, activityMultiplier } from "@fitness-tools/core";
+import { mifflinBmr, activityMultiplier } from "@almostjacked/fitness-tools";
 mifflinBmr("male", 80, 180, 30) * activityMultiplier("moderate"); // 2759
 ```
 
@@ -57,7 +57,7 @@ companion HTTP server generates its catalog and OpenAPI spec — no hand-written
 
 ```html
 <script type="module">
-  import { mifflinBmr } from "https://esm.sh/@fitness-tools/core";
+  import { mifflinBmr } from "https://esm.sh/@almostjacked/fitness-tools";
   console.log(mifflinBmr("female", 65, 168, 28));
 </script>
 ```
@@ -85,7 +85,7 @@ Units are explicit everywhere (`{ value, unit }`).
 
 ## Need it over HTTP?
 
-There's a reference HTTP server — [`@fitness-tools/api`](../../apps/api) — that re-exposes
+There's a reference HTTP server — [`@almostjacked/fitness-tools-api`](../../apps/api) — that re-exposes
 these calculators over HTTP for clients that can't `npm install` a TS package (other
 languages, curl, no-code tools). It's optional: if you're in JS/TS, use this package
 directly. The server adds a network boundary, not capability.

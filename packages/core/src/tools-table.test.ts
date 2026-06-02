@@ -1,4 +1,6 @@
 import { describe, expect, test } from "vitest";
+import { readFileSync } from "node:fs";
+import { fileURLToPath } from "node:url";
 import { toolsTableMarkdown } from "./tools-table.js";
 
 describe("toolsTableMarkdown", () => {
@@ -15,5 +17,15 @@ describe("toolsTableMarkdown", () => {
     expect(md).toContain("`powerlifting-attempts`");
     expect(md).toContain("`muscle-potential`");
     expect(md.split("\n").filter((l) => l.startsWith("| `")).length).toBe(7);
+  });
+
+  test("the committed README table matches a fresh generation", () => {
+    const readmePath = fileURLToPath(new URL("../README.md", import.meta.url));
+    const readme = readFileSync(readmePath, "utf8");
+    const block = readme
+      .split("<!-- tools:start -->")[1]
+      ?.split("<!-- tools:end -->")[0]
+      ?.trim();
+    expect(block).toBe(toolsTableMarkdown());
   });
 });

@@ -6,6 +6,7 @@ powerlifting attempts, and natural muscular potential, each with multiple method
 consensus across them.
 
 [![npm](https://img.shields.io/npm/v/@fitness-tools/core.svg)](https://www.npmjs.com/package/@fitness-tools/core)
+[![CI](https://github.com/ajwallacemusic/fitness-tools/actions/workflows/ci.yml/badge.svg)](https://github.com/ajwallacemusic/fitness-tools/actions/workflows/ci.yml)
 · Types ✓ · 1 dependency (zod) · MIT
 
 ```bash

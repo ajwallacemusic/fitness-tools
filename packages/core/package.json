@@ -18,6 +18,7 @@
     "build": "tsc -p tsconfig.json",
     "test": "vitest run",
     "test:watch": "vitest",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
     "gen:tools": "tsx scripts/gen-tools-table.ts"
   },
   "dependencies": {
@@ -29,5 +30,38 @@
     "jsdom": "^24.0.0",
     "tsx": "^4.16.0"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "author": "AJ Wallace <ajwallacemusic@gmail.com>",
+  "homepage": "https://github.com/ajwallacemusic/fitness-tools/tree/main/packages/core#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ajwallacemusic/fitness-tools.git",
+    "directory": "packages/core"
+  },
+  "bugs": {
+    "url": "https://github.com/ajwallacemusic/fitness-tools/issues"
+  },
+  "keywords": [
+    "fitness",
+    "health",
+    "calculator",
+    "bmr",
+    "tdee",
+    "body-fat",
+    "one-rep-max",
+    "1rm",
+    "macros",
+    "nutrition",
+    "strength",
+    "ffmi",
+    "zod",
+    "typescript",
+    "isomorphic"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
 }

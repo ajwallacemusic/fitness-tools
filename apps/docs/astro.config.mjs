@@ -1,6 +1,7 @@
 // @ts-check
 import { defineConfig } from "astro/config";
 import starlight from "@astrojs/starlight";
+import starlightOpenAPI, { openAPISidebarGroups } from "starlight-openapi";
 
 export default defineConfig({
   site: "https://ajwallacemusic.github.io",
@@ -14,7 +15,15 @@ export default defineConfig({
       editLink: {
         baseUrl: "https://github.com/ajwallacemusic/fitness-tools/edit/main/apps/docs/",
       },
-      sidebar: [{ label: "Guides", autogenerate: { directory: "guides" } }],
+      plugins: [
+        starlightOpenAPI([
+          { base: "api", label: "HTTP API", schema: "./src/openapi.json" },
+        ]),
+      ],
+      sidebar: [
+        { label: "Guides", autogenerate: { directory: "guides" } },
+        ...openAPISidebarGroups,
+      ],
     }),
   ],
 });

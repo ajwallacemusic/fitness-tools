@@ -1,3 +1,10 @@
+/**
+ * @packageDocumentation
+ * Validated, self-describing fitness calculators. Import raw functions
+ * (e.g. {@link mifflinBmr}) or use the {@link REGISTRY} of tools, each of which
+ * validates input with Zod, runs several published formulas, and reports a
+ * consensus across them. Isomorphic: runs in the browser and on the server.
+ */
 import { register, REGISTRY, type Tool } from "./registry.js";
 import { tool as tdee } from "./tools/tdee.js";
 import { tool as bodyFat } from "./tools/body-fat.js";

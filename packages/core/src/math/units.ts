@@ -20,16 +20,19 @@ export const LengthSchema = z.object({
 export type Mass = z.output<typeof MassSchema>;
 export type Length = z.output<typeof LengthSchema>;
 
+/** Normalize a {@link Mass} to kilograms. */
 export function massKg(m: Mass): number {
   return m.unit === "lb" ? m.value * LB_TO_KG : m.value;
 }
 
+/** Normalize a {@link Length} to centimetres. */
 export function lengthCm(l: Length): number {
   if (l.unit === "in") return l.value * IN_TO_CM;
   if (l.unit === "mm") return l.value / 10;
   return l.value;
 }
 
+/** Normalize a {@link Length} to millimetres. */
 export function lengthMm(l: Length): number {
   return lengthCm(l) * 10;
 }

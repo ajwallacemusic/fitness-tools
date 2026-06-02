@@ -6,11 +6,13 @@ export interface Consensus {
   n: number;
 }
 
+/** Round to a given number of decimal places (default 1). */
 export function roundTo(x: number, ndigits = 1): number {
   const f = 10 ** ndigits;
   return Math.round((x + Number.EPSILON) * f) / f;
 }
 
+/** Summary stats (mean, median, min, max, n) across method values; null for an empty set. */
 export function computeConsensus(values: number[]): Consensus | null {
   if (values.length === 0) return null;
   const sorted = [...values].sort((a, b) => a - b);

@@ -26,6 +26,12 @@ jobs:
           node-version: 22
           cache: pnpm
 
+      # npm Trusted Publishing (OIDC) needs npm >= 11.5.1; Node 22 ships npm 10.x.
+      # `pnpm publish` shells out to the npm CLI for the registry upload, so the
+      # runner's global npm must be new enough to perform the OIDC token exchange.
+      # Without this, publish fails with a misleading ENEEDAUTH (npm/cli#9088).
+      - run: npm install --global npm@latest
+
       - run: pnpm install --frozen-lockfile
 
       # Gate every release on a green build + full test suite.

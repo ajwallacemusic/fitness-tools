@@ -1,5 +1,5 @@
 import { zodToJsonSchema } from "zod-to-json-schema";
-import { REGISTRY, type Tool } from "@fitness-tools/core";
+import { REGISTRY, type Tool } from "@almostjacked/fitness-tools";
 
 // Read at runtime when launched via pnpm/npm; harmless fallback otherwise.
 const API_VERSION = process.env.npm_package_version ?? "0.1.0";
@@ -155,7 +155,7 @@ export function buildOpenApiDocument(): JsonObject {
       title: "Fitness Tools API",
       version: API_VERSION,
       description:
-        "Reference HTTP server over @fitness-tools/core. Each tool is exposed as " +
+        "Reference HTTP server over @almostjacked/fitness-tools. Each tool is exposed as " +
         "POST /v1/tools/{id}; the same calculators are usable in-process via the npm package.",
       license: { name: "MIT" },
     },

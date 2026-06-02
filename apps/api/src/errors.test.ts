@@ -1,7 +1,7 @@
 import { expect, test } from "vitest";
 import { Hono } from "hono";
 import { z } from "zod";
-import { DomainError } from "@fitness-tools/core";
+import { DomainError } from "@almostjacked/fitness-tools";
 import { installErrorHandler, envelope } from "./errors.js";
 
 function appThatThrows(err: unknown): Hono {

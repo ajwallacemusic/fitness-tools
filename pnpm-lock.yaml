@@ -10,7 +10,7 @@ importers:
 
   apps/api:
     dependencies:
-      '@fitness-tools/core':
+      '@almostjacked/fitness-tools':
         specifier: workspace:*
         version: link:../../packages/core
       '@hono/node-server':

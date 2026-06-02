@@ -1,5 +1,5 @@
 {
-  "name": "@fitness-tools/core",
+  "name": "@almostjacked/fitness-tools",
   "version": "0.1.0",
   "description": "Composable, deterministic fitness calculators. Isomorphic: browser + server.",
   "type": "module",

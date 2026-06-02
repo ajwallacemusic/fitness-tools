@@ -30,8 +30,8 @@ pnpm -C packages/core build     # emit dist/ + .d.ts
 ## Layout
 
 ```
-packages/core   @fitness-tools/core — the library (the product)
-apps/api        @fitness-tools/api  — a reference HTTP server over the library
+packages/core   @almostjacked/fitness-tools — the library (the product)
+apps/api        @almostjacked/fitness-tools-api  — a reference HTTP server over the library
 ```
 
 ## How we work

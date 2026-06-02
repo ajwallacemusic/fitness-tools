@@ -1,6 +1,6 @@
 import type { Hono } from "hono";
 import { ZodError } from "zod";
-import { DomainError } from "@fitness-tools/core";
+import { DomainError } from "@almostjacked/fitness-tools";
 
 export function envelope(type: string, message: string, details: unknown = null) {
   return { error: { type, message, details } };

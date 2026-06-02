@@ -7,8 +7,8 @@ assignees: ""
 ---
 
 **Which package?**
-- [ ] `@fitness-tools/core` (the library)
-- [ ] `@fitness-tools/api` (the reference server)
+- [ ] `@almostjacked/fitness-tools` (the library)
+- [ ] `@almostjacked/fitness-tools-api` (the reference server)
 
 **What happened**
 A clear description of the bug.

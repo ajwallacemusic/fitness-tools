@@ -1,5 +1,5 @@
 {
-  "name": "@fitness-tools/api",
+  "name": "@almostjacked/fitness-tools-api",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -11,7 +11,7 @@
     "typecheck": "tsc --noEmit -p tsconfig.json"
   },
   "dependencies": {
-    "@fitness-tools/core": "workspace:*",
+    "@almostjacked/fitness-tools": "workspace:*",
     "@hono/node-server": "^1.12.0",
     "@scalar/hono-api-reference": "^0.10.20",
     "hono": "^4.5.0",

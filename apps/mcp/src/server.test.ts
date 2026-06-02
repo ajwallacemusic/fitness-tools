@@ -69,4 +69,23 @@ describe("mcp server contract", () => {
     const sc = res.structuredContent as { results: unknown[] };
     expect(sc.results.length).toBeGreaterThan(1);
   });
+
+  test("explicit unknown method surfaces as a tool error", async () => {
+    const client = await connect();
+    const res = await client.callTool({
+      name: "tdee",
+      arguments: {
+        sex: "male",
+        age: 30,
+        height: { value: 180, unit: "cm" },
+        weight: { value: 80, unit: "kg" },
+        activity: "moderate",
+        methods: ["bogus"],
+      },
+    });
+
+    expect(res.isError).toBe(true);
+    const text = (res.content as { type: string; text: string }[])[0];
+    expect(text.text.toLowerCase()).toContain("bogus");
+  });
 });

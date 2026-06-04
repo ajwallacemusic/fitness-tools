@@ -11,11 +11,12 @@ describe("catalog", () => {
     expect(entry.output_schema.type).toBe("object");
     expect(entry.examples.length).toBeGreaterThan(0);
   });
-  test("full catalog lists all 7 ids", () => {
+  test("full catalog lists all 9 ids", () => {
     const ids = new Set(fullCatalog().map((e) => e.id));
     for (const id of [
       "tdee", "body-fat", "one-rep-max", "macros",
       "activity-multiplier", "powerlifting-attempts", "muscle-potential",
+      "ffmi", "rsmi",
     ]) {
       expect(ids.has(id)).toBe(true);
     }

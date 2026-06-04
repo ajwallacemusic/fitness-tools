@@ -15,7 +15,7 @@ describe("api routes", () => {
     const body = (await (await get("/v1/tools")).json()) as any[];
     const ids = new Set(body.map((t) => t.id));
     expect(ids.has("tdee")).toBe(true);
-    expect(body.length).toBe(7);
+    expect(body.length).toBe(9);
     const tdee = body.find((t) => t.id === "tdee");
     expect(tdee.input_schema).toBeDefined();
     expect(tdee.output_schema).toBeDefined();

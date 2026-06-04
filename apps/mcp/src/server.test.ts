@@ -19,7 +19,7 @@ describe("mcp server contract", () => {
     const { tools } = await client.listTools();
     const names = new Set(tools.map((t) => t.name));
 
-    expect(tools.length).toBe(7);
+    expect(tools.length).toBe(9);
     for (const id of REGISTRY.keys()) expect(names.has(id)).toBe(true);
 
     const tdee = tools.find((t) => t.name === "tdee")!;

@@ -16,14 +16,14 @@ body fat percentage (or lean mass directly), and flag whether the result exceeds
 | `height` | `{ value, unit }` | `cm` or `in` — required |
 | `weight` | `{ value, unit }` | `kg` or `lb` — required |
 | `body_fat` | number \| null | body-fat %, 2–70; required if `lean_mass` is absent |
-| `lean_mass` | `{ value, unit }` \| null | fat-free mass — alternative to `body_fat` |
+| `lean_mass` | `{ value, unit }` \| null | fat-free mass — alternative to `body_fat`; if both are given, `lean_mass` wins |
 | `methods` | `string[] \| "all"` | defaults to `"all"` |
 
 ## Methods
 
 - **standard** — FFMI = fat-free mass (kg) ÷ height (m)². The **adjusted** value normalizes to a
   1.8 m reference: `FFMI + 6.1 × (1.8 − height_m)` (Kouri et al. 1995). `above_natural_limit` is
-  true when raw FFMI > 25.
+  true when the **adjusted** FFMI exceeds 25 (the ceiling is defined on the height-normalized value).
 
 > The ~25 ceiling comes from a **male** reference population; the practical natural limit for
 > women is lower (~22). The flag uses the single 25 threshold — read it with that in mind.

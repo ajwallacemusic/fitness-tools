@@ -17,6 +17,7 @@ flags low muscle mass against three sarcopenia standards. Reach for it to screen
 | `weight` | `{ value, unit }` | `kg` or `lb` |
 | `age` | number | years, 0–120 |
 | `asm_kg` | number \| null | appendicular skeletal muscle mass from DXA |
+| `methods` | `string[] \| "all"` | defaults to `"all"` |
 
 ## Methods
 

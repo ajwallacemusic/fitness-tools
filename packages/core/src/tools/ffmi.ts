@@ -43,7 +43,7 @@ export function compute(inp: FfmiInputT): FfmiOutputT {
       {
         ffm_kg: roundTo(ffm, 2),
         ffmi_adjusted: roundTo(adjustedFfmi(raw, cm), 2),
-        above_natural_limit: raw > FFMI_NATURAL_CAP,
+        above_natural_limit: adjustedFfmi(raw, cm) > FFMI_NATURAL_CAP,
       },
     ];
   };

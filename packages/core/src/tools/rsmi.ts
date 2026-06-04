@@ -58,7 +58,7 @@ export function compute(inp: RsmiInputT): RsmiOutputT {
   const requested = inp.methods === "all" ? ALL_METHODS : inp.methods;
   const explicit = inp.methods !== "all";
   const { results, skipped } = runMethods(requested, explicit, run, "kg/m²", {
-    reasonFn: (m) => (m === "direct" ? "direct: requires asm_kg" : `${m}: required inputs missing`),
+    reasonFn: () => "direct: requires asm_kg",
     ndigits: 2,
   });
   return { results, consensus: computeConsensus(results.map((r) => r.value)), skipped };

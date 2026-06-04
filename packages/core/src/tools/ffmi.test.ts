@@ -28,4 +28,17 @@ describe("ffmi tool", () => {
   it("throws when neither body_fat nor lean_mass is given", () => {
     expect(() => compute(FfmiInput.parse({ ...base }))).toThrow(DomainError);
   });
+
+  it("flags the natural limit on adjusted FFMI, not raw (short lifter)", () => {
+    // 155 cm, lean mass 56.46 kg → raw FFMI ≈ 23.50 (below 25),
+    // but adjusted = 23.50 + 6.1*(1.8-1.55) = 25.03 (above 25).
+    const out = compute(FfmiInput.parse({
+      height: { value: 155, unit: "cm" },
+      weight: { value: 70, unit: "kg" },
+      lean_mass: { value: 56.46, unit: "kg" },
+    }));
+    const r = out.results[0];
+    expect(r.value).toBeCloseTo(23.5, 1);
+    expect(r.detail).toMatchObject({ ffmi_adjusted: 25.03, above_natural_limit: true });
+  });
 });

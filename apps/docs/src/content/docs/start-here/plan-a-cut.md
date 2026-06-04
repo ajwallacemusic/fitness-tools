@@ -67,7 +67,7 @@ const m = macros.compute(macros.input.parse({
 // m.results[0].detail → { protein_g: 187, fat_g: 76.5, carb_g: 244.4, calories: 2414 }
 ```
 
-Sam's cutting day: **2414 kcal — 187 g protein, 76 g fat, 244 g carbs.**
+Sam's cutting day: **2414 kcal — 187 g protein, 77 g fat, 244 g carbs.**
 
 ## What you just did
 

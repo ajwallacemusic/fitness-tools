@@ -32,6 +32,7 @@ export default defineConfig({
       sidebar: [
         { label: "Guides", autogenerate: { directory: "guides" } },
         { label: "Tools", autogenerate: { directory: "tools" } },
+        { label: "MCP", autogenerate: { directory: "mcp" } },
         typeDocSidebarGroup,
         ...openAPISidebarGroups,
       ],

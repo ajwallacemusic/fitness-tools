@@ -1,6 +1,8 @@
 ---
 title: MCP server
 description: Use the calculators as MCP tools from an agent or LLM client.
+sidebar:
+  order: 1
 ---
 
 [`@almostjacked/fitness-tools-mcp`](https://www.npmjs.com/package/@almostjacked/fitness-tools-mcp)
@@ -65,6 +67,6 @@ Invalid input and domain errors (e.g. an unknown method) come back as tool error
 
 Same calculators, three protocols:
 
-- **[`@almostjacked/fitness-tools`](/fitness-tools/guides/quick-start/)** — import and call in-process (browser or server).
+- **[`@almostjacked/fitness-tools`](/fitness-tools/guides/getting-started/)** — import and call in-process (browser or server).
 - **`@almostjacked/fitness-tools-api`** — call over HTTP from any language or a no-code tool.
 - **`@almostjacked/fitness-tools-mcp`** — wire the calculators into an agent or LLM client.

@@ -1,6 +1,8 @@
 ---
 title: Browser-native
 description: Run the calculators client-side with no bundler.
+sidebar:
+  order: 4
 ---
 
 The package is isomorphic — no Node-only APIs — so it runs directly in a browser:

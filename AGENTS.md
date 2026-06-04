@@ -2,7 +2,7 @@
 
 Guidance for AI agents (and humans) working **on** this repository. If you are an
 agent **using** the calculators (calling the MCP/HTTP tools), see the
-[consumer guide](https://ajwallacemusic.github.io/fitness-tools/guides/agents/) instead.
+[consumer guide](https://ajwallacemusic.github.io/fitness-tools/mcp/agents/) instead.
 
 ## What this repo is
 

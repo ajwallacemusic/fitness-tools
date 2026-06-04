@@ -62,4 +62,4 @@ tdee.compute(tdee.input.parse({
 ## Call it another way
 
 - **Over HTTP:** `POST /v1/tools/tdee` — see the [HTTP API](/fitness-tools/api/).
-- **From an agent:** the `tdee` MCP tool — see the [MCP server](/fitness-tools/guides/mcp/).
+- **From an agent:** the `tdee` MCP tool — see the [MCP server](/fitness-tools/mcp/server/).

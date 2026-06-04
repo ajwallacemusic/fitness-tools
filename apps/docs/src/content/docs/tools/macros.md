@@ -61,4 +61,4 @@ macros.compute(macros.input.parse({
 ## Call it another way
 
 - **Over HTTP:** `POST /v1/tools/macros` — see the [HTTP API](/fitness-tools/api/).
-- **From an agent:** the `macros` MCP tool — see the [MCP server](/fitness-tools/guides/mcp/).
+- **From an agent:** the `macros` MCP tool — see the [MCP server](/fitness-tools/mcp/server/).

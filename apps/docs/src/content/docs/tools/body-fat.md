@@ -61,4 +61,4 @@ bodyFat.compute(bodyFat.input.parse({
 ## Call it another way
 
 - **Over HTTP:** `POST /v1/tools/body-fat` — see the [HTTP API](/fitness-tools/api/).
-- **From an agent:** the `body-fat` MCP tool — see the [MCP server](/fitness-tools/guides/mcp/).
+- **From an agent:** the `body-fat` MCP tool — see the [MCP server](/fitness-tools/mcp/server/).

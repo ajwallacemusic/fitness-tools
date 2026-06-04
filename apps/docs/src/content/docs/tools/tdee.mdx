@@ -3,6 +3,8 @@ title: TDEE
 description: Estimate BMR and total daily energy expenditure across four formulas.
 ---
 
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+
 **Tool id:** `tdee` · **Methods:** mifflin, harris, katch, cunningham
 
 Estimates **Basal Metabolic Rate** and **Total Daily Energy Expenditure** (calories burned
@@ -34,6 +36,9 @@ a calorie target for cutting, maintaining, or bulking.
 
 ## Example
 
+<Tabs>
+  <TabItem label="TypeScript">
+
 ```ts
 import { REGISTRY } from "@almostjacked/fitness-tools";
 const tdee = REGISTRY.get("tdee")!;
@@ -44,6 +49,32 @@ tdee.compute(tdee.input.parse({
   activity: "moderate",
 }));
 ```
+
+  </TabItem>
+  <TabItem label="curl">
+
+```bash
+curl -s localhost:8080/v1/tools/tdee \
+  -X POST -H 'content-type: application/json' \
+  -d '{"sex":"male","age":30,"height":{"value":180,"unit":"cm"},"weight":{"value":80,"unit":"kg"},"activity":"moderate"}'
+```
+
+  </TabItem>
+  <TabItem label="MCP">
+
+Call the `tdee` tool with these arguments:
+
+```json
+{
+  "sex": "male", "age": 30,
+  "height": { "value": 180, "unit": "cm" },
+  "weight": { "value": 80, "unit": "kg" },
+  "activity": "moderate"
+}
+```
+
+  </TabItem>
+</Tabs>
 
 ```ts
 {
@@ -61,5 +92,4 @@ tdee.compute(tdee.input.parse({
 
 ## Call it another way
 
-- **Over HTTP:** `POST /v1/tools/tdee` — see the [HTTP API](/fitness-tools/api/).
-- **From an agent:** the `tdee` MCP tool — see the [MCP server](/fitness-tools/mcp/server/).
+Full docs for the other protocols: [HTTP API](/fitness-tools/api/) · [MCP server](/fitness-tools/mcp/server/).

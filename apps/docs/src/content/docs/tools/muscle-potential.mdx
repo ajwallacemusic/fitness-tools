@@ -3,6 +3,8 @@ title: Muscle potential
 description: Estimate drug-free maximum bodyweight at a target body-fat %.
 ---
 
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+
 **Tool id:** `muscle-potential` · **Methods:** casey-butt, ffmi-cap, berkhan
 
 > **Men only in v1.** Passing `sex: "female"` throws a `DomainError`. Female models are
@@ -32,6 +34,9 @@ bodyweight target.
 
 ## Example
 
+<Tabs>
+  <TabItem label="TypeScript">
+
 ```ts
 import { REGISTRY } from "@almostjacked/fitness-tools";
 const mp = REGISTRY.get("muscle-potential")!;
@@ -40,6 +45,30 @@ mp.compute(mp.input.parse({
   height: { value: 180, unit: "cm" },
 }));
 ```
+
+  </TabItem>
+  <TabItem label="curl">
+
+```bash
+curl -s localhost:8080/v1/tools/muscle-potential \
+  -X POST -H 'content-type: application/json' \
+  -d '{"sex":"male","height":{"value":180,"unit":"cm"}}'
+```
+
+  </TabItem>
+  <TabItem label="MCP">
+
+Call the `muscle-potential` tool with these arguments:
+
+```json
+{
+  "sex": "male",
+  "height": { "value": 180, "unit": "cm" }
+}
+```
+
+  </TabItem>
+</Tabs>
 
 ```ts
 {
@@ -66,5 +95,4 @@ mp.compute(mp.input.parse({
 
 ## Call it another way
 
-- **Over HTTP:** `POST /v1/tools/muscle-potential` — see the [HTTP API](/fitness-tools/api/).
-- **From an agent:** the `muscle-potential` MCP tool — see the [MCP server](/fitness-tools/mcp/server/).
+Full docs for the other protocols: [HTTP API](/fitness-tools/api/) · [MCP server](/fitness-tools/mcp/server/).

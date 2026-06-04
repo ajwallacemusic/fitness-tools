@@ -3,6 +3,8 @@ title: Macros
 description: Split a calorie target into protein, fat, and carb grams.
 ---
 
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+
 **Tool id:** `macros` · **Methods:** g-per-kg
 
 Turn a daily calorie target into protein/fat/carb grams; reach for it after you've set
@@ -26,6 +28,9 @@ calories from TDEE.
 
 ## Example
 
+<Tabs>
+  <TabItem label="TypeScript">
+
 ```ts
 import { REGISTRY } from "@almostjacked/fitness-tools";
 const macros = REGISTRY.get("macros")!;
@@ -35,6 +40,31 @@ macros.compute(macros.input.parse({
   goal: "maintain",
 }));
 ```
+
+  </TabItem>
+  <TabItem label="curl">
+
+```bash
+curl -s localhost:8080/v1/tools/macros \
+  -X POST -H 'content-type: application/json' \
+  -d '{"calories":2500,"weight":{"value":80,"unit":"kg"},"goal":"maintain"}'
+```
+
+  </TabItem>
+  <TabItem label="MCP">
+
+Call the `macros` tool with these arguments:
+
+```json
+{
+  "calories": 2500,
+  "weight": { "value": 80, "unit": "kg" },
+  "goal": "maintain"
+}
+```
+
+  </TabItem>
+</Tabs>
 
 ```ts
 {
@@ -60,5 +90,4 @@ macros.compute(macros.input.parse({
 
 ## Call it another way
 
-- **Over HTTP:** `POST /v1/tools/macros` — see the [HTTP API](/fitness-tools/api/).
-- **From an agent:** the `macros` MCP tool — see the [MCP server](/fitness-tools/mcp/server/).
+Full docs for the other protocols: [HTTP API](/fitness-tools/api/) · [MCP server](/fitness-tools/mcp/server/).

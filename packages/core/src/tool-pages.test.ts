@@ -10,7 +10,7 @@ const TOOLS_DOCS_DIR = resolve(here, "../../../apps/docs/src/content/docs/tools"
 describe("per-tool docs pages", () => {
   it("every registered tool has a docs page", () => {
     const pages = existsSync(TOOLS_DOCS_DIR)
-      ? new Set(readdirSync(TOOLS_DOCS_DIR).filter((f) => f.endsWith(".md")).map((f) => f.replace(/\.md$/, "")))
+      ? new Set(readdirSync(TOOLS_DOCS_DIR).filter((f) => f.endsWith(".md") || f.endsWith(".mdx")).map((f) => f.replace(/\.mdx?$/, "")))
       : new Set<string>();
     const missing = [...REGISTRY.keys()].filter((id) => !pages.has(id));
     expect(missing, `missing tools/<id>.md for: ${missing.join(", ")}`).toEqual([]);

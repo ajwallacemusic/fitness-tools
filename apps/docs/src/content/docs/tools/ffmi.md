@@ -1,5 +1,5 @@
 ---
-title: Fat-Free Mass Index (FFMI)
+title: FFMI
 description: Compute FFMI and its height-adjusted form, and flag whether it exceeds the natural ceiling.
 ---
 
@@ -21,8 +21,12 @@ body fat percentage (or lean mass directly), and flag whether the result exceeds
 
 ## Methods
 
-- **standard** — Calculates raw FFMI (kg/m²), height-adjusted FFMI normalized to a 1.8 m
-  reference, and whether the raw value exceeds the FFMI_NATURAL_CAP of 25.
+- **standard** — FFMI = fat-free mass (kg) ÷ height (m)². The **adjusted** value normalizes to a
+  1.8 m reference: `FFMI + 6.1 × (1.8 − height_m)` (Kouri et al. 1995). `above_natural_limit` is
+  true when raw FFMI > 25.
+
+> The ~25 ceiling comes from a **male** reference population; the practical natural limit for
+> women is lower (~22). The flag uses the single 25 threshold — read it with that in mind.
 
 ## Example
 

@@ -1,3 +1,4 @@
+import { FFMI_NATURAL_CAP } from "./indices.js";
 import { LB_TO_KG } from "./units.js";
 
 const CM_TO_IN = 1 / 2.54;
@@ -26,7 +27,7 @@ export function caseyButtFfmKg(
 
 /** Natural fat-free mass (kg) ceiling implied by an FFMI of 25, from height (cm). */
 export function ffmiCapFfmKg(heightCm: number): number {
-  return 25 * (heightCm / 100) ** 2;
+  return FFMI_NATURAL_CAP * (heightCm / 100) ** 2;
 }
 
 /** Martin Berkhan's "contest-shape" fat-free mass (kg) heuristic from height (cm). */

@@ -21,7 +21,7 @@ pnpm -C packages/core build   # the API imports the core's built dist/
 ## Everyday commands
 
 ```bash
-pnpm -r test                    # run all tests (core + api)
+pnpm -r test                    # run all tests (core + api + mcp)
 pnpm -C packages/core test:watch  # watch the calculators while you edit
 pnpm -r typecheck               # tsc --noEmit across packages
 pnpm -C packages/core build     # emit dist/ + .d.ts
@@ -32,6 +32,8 @@ pnpm -C packages/core build     # emit dist/ + .d.ts
 ```
 packages/core   @almostjacked/fitness-tools — the library (the product)
 apps/api        @almostjacked/fitness-tools-api  — a reference HTTP server over the library
+apps/mcp        @almostjacked/fitness-tools-mcp  — an MCP stdio server over the library
+apps/docs       the documentation site
 ```
 
 ## How we work

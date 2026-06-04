@@ -81,6 +81,7 @@ an edge function, or Node.
 | `powerlifting-attempts` | standard | Deterministic opener/second/third attempts from an estimated 1RM, plus a warmup ramp and per-side plate loading. Tunable by aggressiveness and available plates. |
 | `muscle-potential` | casey-butt, ffmi-cap, berkhan | Estimate drug-free maximum bodyweight at a target body-fat % via Casey Butt (wrist+ankle), the FFMI~25 natural cap, and Berkhan's max-contest-weight model. Men only in v1. |
 | `ffmi` | standard | Compute the Fat-Free Mass Index (FFMI) and its height-adjusted form from weight and body fat (or lean mass), and flag whether it exceeds the ~25 natural ceiling. |
+| `rsmi` | direct, wen-2011 | Estimate the appendicular skeletal muscle index (RSMI) from a DXA value (direct) and/or an anthropometric estimate (Wen 2011), and flag low muscle mass against EWGSOP2, AWGS, and Baumgartner sarcopenia cutoffs. |
 <!-- tools:end -->
 
 Each tool runs several methods and reports a `consensus` (mean/median/min/max/n) across

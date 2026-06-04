@@ -11,13 +11,13 @@ describe("toolsTableMarkdown", () => {
     expect(md).toContain("|---|---|---|");
   });
 
-  test("lists all 8 tools with their methods", () => {
+  test("lists all 9 tools with their methods", () => {
     expect(md).toContain("`tdee`");
     expect(md).toContain("mifflin, harris, katch, cunningham");
     expect(md).toContain("`powerlifting-attempts`");
     expect(md).toContain("`muscle-potential`");
     expect(md).toContain("`ffmi`");
-    expect(md.split("\n").filter((l) => l.startsWith("| `")).length).toBe(8);
+    expect(md.split("\n").filter((l) => l.startsWith("| `")).length).toBe(9);
   });
 
   test("the committed README table matches a fresh generation", () => {

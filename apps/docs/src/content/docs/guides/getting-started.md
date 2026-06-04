@@ -10,6 +10,17 @@ max, macros, and more. Each calculator runs several *published* formulas and rep
 **consensus** across them, so you get a defensible range instead of one black-box number.
 It's a plain TypeScript library: install it, call it, done. No server, no network, no API key.
 
+**In a hurry?** `npm i @almostjacked/fitness-tools`, then:
+
+```ts
+import { mifflinBmr, activityMultiplier } from "@almostjacked/fitness-tools";
+mifflinBmr("male", 80, 180, 30) * activityMultiplier("moderate"); // 2759
+```
+
+That's a single formula with no validation. The rest of this page shows the validated,
+multi-method version that returns a **consensus** across formulas — and explains what you
+get back.
+
 ## 1. Install
 
 ```bash

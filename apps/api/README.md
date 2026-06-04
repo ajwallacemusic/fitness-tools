@@ -28,6 +28,8 @@ docker run --rm -p 8080:8080 fitness-tools-api
 
 ## Routes
 
+> What each tool computes (inputs, methods, citations) lives on its [tool page](https://ajwallacemusic.github.io/fitness-tools/tools/tdee/) — these routes are just the HTTP wrapper.
+
 | Method & path | Purpose |
 |---|---|
 | `GET /healthz` | Liveness probe → `{ "status": "ok" }` |

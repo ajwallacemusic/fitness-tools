@@ -37,4 +37,5 @@ export * from "./math/macros.js";
 export * from "./math/strength.js";
 export * from "./math/activity.js";
 export * from "./math/potential.js";
+export * from "./math/indices.js";
 export * from "./math/plates.js";

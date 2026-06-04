@@ -3,6 +3,8 @@ title: One-rep max
 description: Estimate 1RM from a submaximal set across six formulas, with a %1RM load chart.
 ---
 
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+
 **Tool id:** `one-rep-max` · **Methods:** epley, brzycki, lombardi, wathan, oconner, mayhew
 
 Estimate your one-rep max from a set you actually did (reps at a weight); reach for it to
@@ -31,6 +33,9 @@ programming blocks without extra arithmetic.
 
 ## Example
 
+<Tabs>
+  <TabItem label="TypeScript">
+
 ```ts
 import { REGISTRY } from "@almostjacked/fitness-tools";
 const orm = REGISTRY.get("one-rep-max")!;
@@ -38,6 +43,30 @@ orm.compute(orm.input.parse({
   weight: { value: 100, unit: "kg" }, reps: 5,
 }));
 ```
+
+  </TabItem>
+  <TabItem label="curl">
+
+```bash
+curl -s localhost:8080/v1/tools/one-rep-max \
+  -X POST -H 'content-type: application/json' \
+  -d '{"weight":{"value":100,"unit":"kg"},"reps":5}'
+```
+
+  </TabItem>
+  <TabItem label="MCP">
+
+Call the `one-rep-max` tool with these arguments:
+
+```json
+{
+  "weight": { "value": 100, "unit": "kg" },
+  "reps": 5
+}
+```
+
+  </TabItem>
+</Tabs>
 
 ```ts
 {
@@ -62,5 +91,4 @@ orm.compute(orm.input.parse({
 
 ## Call it another way
 
-- **Over HTTP:** `POST /v1/tools/one-rep-max` — see the [HTTP API](/fitness-tools/api/).
-- **From an agent:** the `one-rep-max` MCP tool — see the [MCP server](/fitness-tools/mcp/server/).
+Full docs for the other protocols: [HTTP API](/fitness-tools/api/) · [MCP server](/fitness-tools/mcp/server/).

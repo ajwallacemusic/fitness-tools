@@ -3,6 +3,8 @@ title: Body fat
 description: Estimate body-fat % via circumference, skinfold, and BMI methods.
 ---
 
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+
 **Tool id:** `body-fat` · **Methods:** navy, jackson-pollock-3, deurenberg
 
 Estimate body-fat percentage from body measurements; reach for it to track composition or
@@ -34,6 +36,9 @@ to unlock LBM-based TDEE methods.
 
 ## Example
 
+<Tabs>
+  <TabItem label="TypeScript">
+
 ```ts
 import { REGISTRY } from "@almostjacked/fitness-tools";
 const bodyFat = REGISTRY.get("body-fat")!;
@@ -44,6 +49,32 @@ bodyFat.compute(bodyFat.input.parse({
   height: { value: 180, unit: "cm" },
 }));
 ```
+
+  </TabItem>
+  <TabItem label="curl">
+
+```bash
+curl -s localhost:8080/v1/tools/body-fat \
+  -X POST -H 'content-type: application/json' \
+  -d '{"sex":"male","neck":{"value":40,"unit":"cm"},"waist":{"value":90,"unit":"cm"},"height":{"value":180,"unit":"cm"}}'
+```
+
+  </TabItem>
+  <TabItem label="MCP">
+
+Call the `body-fat` tool with these arguments:
+
+```json
+{
+  "sex": "male",
+  "neck": { "value": 40, "unit": "cm" },
+  "waist": { "value": 90, "unit": "cm" },
+  "height": { "value": 180, "unit": "cm" }
+}
+```
+
+  </TabItem>
+</Tabs>
 
 ```ts
 {
@@ -60,5 +91,4 @@ bodyFat.compute(bodyFat.input.parse({
 
 ## Call it another way
 
-- **Over HTTP:** `POST /v1/tools/body-fat` — see the [HTTP API](/fitness-tools/api/).
-- **From an agent:** the `body-fat` MCP tool — see the [MCP server](/fitness-tools/mcp/server/).
+Full docs for the other protocols: [HTTP API](/fitness-tools/api/) · [MCP server](/fitness-tools/mcp/server/).

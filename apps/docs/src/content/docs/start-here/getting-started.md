@@ -91,7 +91,7 @@ mifflinBmr("male", 80, 180, 30) * activityMultiplier("moderate"); // 2759
 ## What next
 
 - Browse what each calculator does on the **[Tools](/fitness-tools/tools/tdee/)** pages.
-- Understand **[methods and consensus](/fitness-tools/guides/methods-and-consensus/)** in depth.
+- Understand **[methods and consensus](/fitness-tools/concepts/methods-and-consensus/)** in depth.
 - Validate untrusted input (forms, APIs): **[Validation](/fitness-tools/guides/validation/)**.
 - Calling from another language or an agent? See the **[HTTP API](/fitness-tools/api/)** and
   **[MCP server](/fitness-tools/mcp/server/)**.

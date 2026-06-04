@@ -1,6 +1,6 @@
 # @almostjacked/fitness-tools
 
-**New here?** Start with the [getting-started tutorial](https://ajwallacemusic.github.io/fitness-tools/guides/getting-started/)
+**New here?** Start with the [getting-started tutorial](https://ajwallacemusic.github.io/fitness-tools/start-here/getting-started/)
 — zero to an understood result in one page. The reference below is the fast version.
 
 Validated, self-describing fitness calculators for TypeScript — **runs natively in the

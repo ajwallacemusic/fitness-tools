@@ -30,7 +30,10 @@ export default defineConfig({
         }),
       ],
       sidebar: [
+        { label: "Introduction", slug: "introduction" },
+        { label: "Start here", autogenerate: { directory: "start-here" } },
         { label: "Guides", autogenerate: { directory: "guides" } },
+        { label: "Concepts", autogenerate: { directory: "concepts" } },
         { label: "Tools", autogenerate: { directory: "tools" } },
         { label: "MCP", autogenerate: { directory: "mcp" } },
         typeDocSidebarGroup,

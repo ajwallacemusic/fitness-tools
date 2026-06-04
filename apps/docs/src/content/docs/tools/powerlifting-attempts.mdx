@@ -3,6 +3,8 @@ title: Powerlifting attempts
 description: Plan opener/second/third attempts, warm-ups, and plate loading from a 1RM.
 ---
 
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+
 **Tool id:** `powerlifting-attempts` · **Methods:** standard
 
 Turn an estimated 1RM into a meet-day attempt plan; reach for it to pick openers and a
@@ -34,6 +36,9 @@ warm-up ramp.
 
 ## Example
 
+<Tabs>
+  <TabItem label="TypeScript">
+
 ```ts
 import { REGISTRY } from "@almostjacked/fitness-tools";
 const pl = REGISTRY.get("powerlifting-attempts")!;
@@ -41,6 +46,29 @@ pl.compute(pl.input.parse({
   one_rep_max: { value: 200, unit: "kg" },
 }));
 ```
+
+  </TabItem>
+  <TabItem label="curl">
+
+```bash
+curl -s localhost:8080/v1/tools/powerlifting-attempts \
+  -X POST -H 'content-type: application/json' \
+  -d '{"one_rep_max":{"value":200,"unit":"kg"}}'
+```
+
+  </TabItem>
+  <TabItem label="MCP">
+
+Call the `powerlifting-attempts` tool with these arguments:
+
+```json
+{
+  "one_rep_max": { "value": 200, "unit": "kg" }
+}
+```
+
+  </TabItem>
+</Tabs>
 
 ```ts
 {
@@ -63,5 +91,4 @@ pl.compute(pl.input.parse({
 
 ## Call it another way
 
-- **Over HTTP:** `POST /v1/tools/powerlifting-attempts` — see the [HTTP API](/fitness-tools/api/).
-- **From an agent:** the `powerlifting-attempts` MCP tool — see the [MCP server](/fitness-tools/mcp/server/).
+Full docs for the other protocols: [HTTP API](/fitness-tools/api/) · [MCP server](/fitness-tools/mcp/server/).

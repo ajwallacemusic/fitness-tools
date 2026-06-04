@@ -3,6 +3,8 @@ title: Activity multiplier
 description: Estimate the TDEE activity multiplier via a lookup table or a NEAT+EAT model.
 ---
 
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+
 **Tool id:** `activity-multiplier` · **Methods:** lookup, neat-eat
 
 Produce the activity multiplier that TDEE needs; reach for it when the coarse activity
@@ -35,6 +37,9 @@ levels don't fit and you want to model non-exercise vs exercise activity separat
 
 ## Example
 
+<Tabs>
+  <TabItem label="TypeScript">
+
 ```ts
 import { REGISTRY } from "@almostjacked/fitness-tools";
 const am = REGISTRY.get("activity-multiplier")!;
@@ -42,6 +47,29 @@ am.compute(am.input.parse({
   activity_level: "moderate",
 }));
 ```
+
+  </TabItem>
+  <TabItem label="curl">
+
+```bash
+curl -s localhost:8080/v1/tools/activity-multiplier \
+  -X POST -H 'content-type: application/json' \
+  -d '{"activity_level":"moderate"}'
+```
+
+  </TabItem>
+  <TabItem label="MCP">
+
+Call the `activity-multiplier` tool with these arguments:
+
+```json
+{
+  "activity_level": "moderate"
+}
+```
+
+  </TabItem>
+</Tabs>
 
 ```ts
 {
@@ -60,5 +88,4 @@ am.compute(am.input.parse({
 
 ## Call it another way
 
-- **Over HTTP:** `POST /v1/tools/activity-multiplier` — see the [HTTP API](/fitness-tools/api/).
-- **From an agent:** the `activity-multiplier` MCP tool — see the [MCP server](/fitness-tools/mcp/server/).
+Full docs for the other protocols: [HTTP API](/fitness-tools/api/) · [MCP server](/fitness-tools/mcp/server/).

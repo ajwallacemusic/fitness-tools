@@ -13,7 +13,7 @@ Prefer plain HTTP? Every tool is also a `POST /v1/tools/{id}` route on the
 ## The tools
 
 `tdee`, `body-fat`, `one-rep-max`, `macros`, `activity-multiplier`,
-`powerlifting-attempts`, `muscle-potential`. Each tool's inputs, methods, and a worked
+`powerlifting-attempts`, `muscle-potential`, `ffmi`, `rsmi`. Each tool's inputs, methods, and a worked
 example live on its **[tool page](/fitness-tools/tools/tdee/)** — that's the source of
 truth for what to send.
 
@@ -27,7 +27,7 @@ truth for what to send.
 ## Reading the result
 
 Every tool returns the same shape — explained in full under
-[methods and consensus](/fitness-tools/guides/methods-and-consensus/):
+[methods and consensus](/fitness-tools/concepts/methods-and-consensus/):
 
 - **`results[]`** — one `{ value, unit, detail }` per formula that ran.
 - **`consensus`** — `{ mean, median, min, max, n }`. Use `mean`/`median` as the headline

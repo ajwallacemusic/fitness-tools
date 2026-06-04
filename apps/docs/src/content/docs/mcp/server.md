@@ -41,7 +41,7 @@ claude mcp add fitness-tools -- npx -y @almostjacked/fitness-tools-mcp
 ## What the agent sees
 
 Each calculator is a separate MCP tool (`tdee`, `body-fat`, `one-rep-max`, `macros`,
-`activity-multiplier`, `powerlifting-attempts`, `muscle-potential`), with an input schema
+`activity-multiplier`, `powerlifting-attempts`, `muscle-potential`, `ffmi`, `rsmi`), with an input schema
 generated from the same Zod definition that powers the library. Optional fields apply their
 defaults — e.g. `tdee` runs all four formulas unless you pass `methods`.
 
@@ -67,6 +67,6 @@ Invalid input and domain errors (e.g. an unknown method) come back as tool error
 
 Same calculators, three protocols:
 
-- **[`@almostjacked/fitness-tools`](/fitness-tools/guides/getting-started/)** — import and call in-process (browser or server).
+- **[`@almostjacked/fitness-tools`](/fitness-tools/start-here/getting-started/)** — import and call in-process (browser or server).
 - **`@almostjacked/fitness-tools-api`** — call over HTTP from any language or a no-code tool.
 - **`@almostjacked/fitness-tools-mcp`** — wire the calculators into an agent or LLM client.

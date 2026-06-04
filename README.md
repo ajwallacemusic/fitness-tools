@@ -35,7 +35,7 @@ This repo ships **three separate, independently-usable artifacts**:
 
 ### Documentation
 
-- **New to it?** [Getting started](https://ajwallacemusic.github.io/fitness-tools/guides/getting-started/)
+- **New to it?** [Getting started](https://ajwallacemusic.github.io/fitness-tools/start-here/getting-started/)
 - **What each calculator does:** [Tools](https://ajwallacemusic.github.io/fitness-tools/tools/tdee/)
 - **Calling from an agent:** [Consumer guide](https://ajwallacemusic.github.io/fitness-tools/mcp/agents/)
 - **Working on this repo:** [AGENTS.md](AGENTS.md)

@@ -27,7 +27,7 @@ truth for what to send.
 ## Reading the result
 
 Every tool returns the same shape — explained in full under
-[methods and consensus](/fitness-tools/guides/methods-and-consensus/):
+[methods and consensus](/fitness-tools/concepts/methods-and-consensus/):
 
 - **`results[]`** — one `{ value, unit, detail }` per formula that ran.
 - **`consensus`** — `{ mean, median, min, max, n }`. Use `mean`/`median` as the headline

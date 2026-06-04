@@ -2,7 +2,7 @@
 title: Methods & consensus
 description: Why each tool returns several results plus a consensus.
 sidebar:
-  order: 2
+  order: 1
 ---
 
 Each calculator runs **multiple published formulas** and reports a **consensus** across

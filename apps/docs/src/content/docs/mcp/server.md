@@ -1,6 +1,8 @@
 ---
 title: MCP server
 description: Use the calculators as MCP tools from an agent or LLM client.
+sidebar:
+  order: 1
 ---
 
 [`@almostjacked/fitness-tools-mcp`](https://www.npmjs.com/package/@almostjacked/fitness-tools-mcp)

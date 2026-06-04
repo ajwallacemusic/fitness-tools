@@ -1,10 +1,12 @@
 ---
 title: Using the calculators from an agent
 description: Pick a tool, send valid input, and read the result — for LLM/agent clients.
+sidebar:
+  order: 2
 ---
 
 If you're building an agent or LLM app, the fastest path is the **MCP server** — each
-calculator becomes a tool. (Setup and client config: [MCP server](/fitness-tools/guides/mcp/).)
+calculator becomes a tool. (Setup and client config: [MCP server](/fitness-tools/mcp/server/).)
 Prefer plain HTTP? Every tool is also a `POST /v1/tools/{id}` route on the
 [HTTP API](/fitness-tools/api/). The math is identical across both.
 

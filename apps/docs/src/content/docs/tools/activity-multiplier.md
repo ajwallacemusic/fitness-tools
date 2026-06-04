@@ -61,4 +61,4 @@ am.compute(am.input.parse({
 ## Call it another way
 
 - **Over HTTP:** `POST /v1/tools/activity-multiplier` — see the [HTTP API](/fitness-tools/api/).
-- **From an agent:** the `activity-multiplier` MCP tool — see the [MCP server](/fitness-tools/guides/mcp/).
+- **From an agent:** the `activity-multiplier` MCP tool — see the [MCP server](/fitness-tools/mcp/server/).

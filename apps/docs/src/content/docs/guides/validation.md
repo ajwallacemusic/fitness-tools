@@ -1,6 +1,8 @@
 ---
 title: Validation & schemas
 description: Runtime validation and self-describing schemas, from one Zod definition.
+sidebar:
+  order: 4
 ---
 
 Every tool carries a Zod schema, so one definition gives you runtime validation, static

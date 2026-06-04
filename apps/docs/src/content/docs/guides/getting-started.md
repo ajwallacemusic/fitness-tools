@@ -1,6 +1,8 @@
 ---
 title: Getting started
 description: From zero to a result you understand, in one page.
+sidebar:
+  order: 1
 ---
 
 **Fitness Tools** is a set of deterministic fitness calculators — TDEE, body fat, one-rep
@@ -81,4 +83,4 @@ mifflinBmr("male", 80, 180, 30) * activityMultiplier("moderate"); // 2759
 - Understand **[methods and consensus](/fitness-tools/guides/methods-and-consensus/)** in depth.
 - Validate untrusted input (forms, APIs): **[Validation](/fitness-tools/guides/validation/)**.
 - Calling from another language or an agent? See the **[HTTP API](/fitness-tools/api/)** and
-  **[MCP server](/fitness-tools/guides/mcp/)**.
+  **[MCP server](/fitness-tools/mcp/server/)**.

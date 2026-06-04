@@ -64,4 +64,4 @@ pl.compute(pl.input.parse({
 ## Call it another way
 
 - **Over HTTP:** `POST /v1/tools/powerlifting-attempts` — see the [HTTP API](/fitness-tools/api/).
-- **From an agent:** the `powerlifting-attempts` MCP tool — see the [MCP server](/fitness-tools/guides/mcp/).
+- **From an agent:** the `powerlifting-attempts` MCP tool — see the [MCP server](/fitness-tools/mcp/server/).

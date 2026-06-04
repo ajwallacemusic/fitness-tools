@@ -1,6 +1,8 @@
 ---
 title: Quick start
 description: Install and run a calculator in 30 seconds.
+sidebar:
+  order: 2
 ---
 
 ```bash

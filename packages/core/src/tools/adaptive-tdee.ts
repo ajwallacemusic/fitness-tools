@@ -164,7 +164,10 @@ export const tool: Tool<AdaptiveTdeeInputT, AdaptiveTdeeOutputT> = {
     "Default method (kalman) is a joint Kalman filter over true weight and TDEE — " +
     "handles missing days, gates outliers, and reports uncertainty (CI95) alongside " +
     "denoised true weight; regression/endpoints are simple window-based estimates kept " +
-    "for comparison. Use instead of formula TDEE once real logged data exists.",
+    "for comparison. Use instead of formula TDEE once real logged data exists. " +
+    "Note: all methods need at least one weigh-in (kalman) or two (regression/endpoints) " +
+    "— a history with zero weight entries throws under the kalman default; pass " +
+    "methods:'all' to get a graceful empty/skipped result instead.",
   category: "energy",
   tags: ["tdee", "adaptive", "energy-balance", "weight-trend", "kalman"],
   methods: ALL_METHODS,

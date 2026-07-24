@@ -1,36 +1,112 @@
 ---
 title: Adaptive TDEE
-description: Measure actual TDEE from logged daily weight and calorie intake via energy balance.
+description: Measure actual TDEE from logged daily weight and/or calorie intake via a Kalman filter.
 ---
 
 import { Tabs, TabItem } from "@astrojs/starlight/components";
 
-**Tool id:** `adaptive-tdee` · **Methods:** regression, endpoints
+**Tool id:** `adaptive-tdee` · **Methods:** kalman (default), regression, endpoints
 
-Formula TDEE (the `tdee` tool) estimates; this tool **measures**. Given 2+ weeks of daily
-weight and intake logs it computes the TDEE that actually explains your weight change,
-using the energy-balance identity `TDEE = mean intake − stored energy`
-(Wishnofsky: 7700 kcal per kg of body-mass change).
+Formula TDEE (the `tdee` tool) estimates; this tool **measures**. Given a logged history of
+daily weight and/or calorie intake, it computes the TDEE that actually explains your weight
+change, using the energy-balance identity `TDEE = intake − stored energy`
+(7700 kcal per kg of body-mass change).
 
 ## Input
 
 | Field | Type | Notes |
 |---|---|---|
-| `entries` | array (10–400) | one per day: `{ date, weight, kcal }` |
+| `entries` | array (10–400) | one per day: `{ date, weight?, kcal? }` |
 | `entries[].date` | string | `YYYY-MM-DD`; gaps are fine, duplicates are an error |
-| `entries[].weight` | `{ value, unit }` | `kg` or `lb` |
-| `entries[].kcal` | number | calories logged for that date |
-| `window_days` | integer | 3–14, default 7 — smoothing window for `endpoints` |
-| `methods` | `string[] \| "all"` | defaults to `"all"` |
+| `entries[].weight` | `{ value, unit }` | optional — `kg` or `lb` |
+| `entries[].kcal` | number | optional — calories logged for that date |
+| `window_days` | integer | 3–14, default 7 — smoothing window for `endpoints`; unused by `kalman` |
+| `prior_tdee_kcal` | number | optional, 500–10000 — starting TDEE estimate (e.g. chained from the `tdee` tool) to speed early convergence |
+| `methods` | `string[] \| string \| "all"` | defaults to `"kalman"` |
+
+Each entry needs **at least one** of `weight` / `kcal` — a day with only a scale reading or
+only a diet-log entry is valid, so streams from separate sources (e.g. a smart scale synced
+daily, a food log synced separately) merge cleanly.
 
 ## Methods
 
-- **regression** — OLS slope of weight over the whole series; robust to gaps.
-- **endpoints** — compares the mean of the first and last `window_days` of weights;
-  requires a date span of at least `2 × window_days`, otherwise it is skipped.
+- **kalman** (default) — a joint Kalman filter over two states, true body weight and TDEE,
+  linked by the energy-balance identity with a symmetric conversion of 7700 kcal per kg
+  (`RHO`) — an asymmetric fat/lean split looks appealing but ratchets the estimate upward
+  under normal weight noise, so both directions use the same constant. Each day predicts
+  weight from yesterday's TDEE and intake, then (if a weigh-in exists) corrects both states
+  from the observation. History is smoothed backward with an RTS smoother for the reported
+  true-weight trend and rate; the **current** TDEE estimate stays the causal filtered value
+  (it never looks ahead). Inputs are conditioned before they reach the filter:
+  - intake above **3× the current TDEE estimate** is hard-rejected (flagged, imputed from the
+    trailing EWMA) — almost never a real logged number;
+  - intake above the trailing median + 3×MAD is **flagged but believed** — real-data testing
+    showed rejecting these biased TDEE low, since most are genuine large refeeds/meals, not
+    logging errors;
+  - a logged value below **0.4× the trailing EWMA** is treated as a partial log (someone
+    logged breakfast and stopped), not a real fast day, and is imputed instead;
+  - any imputed or missing day widens that day's process-noise, i.e. the filter trusts its
+    own prediction less rather than trusting a guessed intake value.
+- **regression** — OLS slope of weight over the whole series; robust to gaps. Comparison
+  method, unchanged from the windowed (non-Kalman) approach.
+- **endpoints** — compares the mean of the first and last `window_days` of weights; requires
+  a date span of at least `2 × window_days`, otherwise it is skipped. Comparison method,
+  unchanged.
 
-> Data sources: on the Claude iOS app, the native Apple Health integration supplies
-> weight and dietary energy directly; elsewhere, paste an export from your logging app.
+> All three methods need at least one weigh-in (`kalman`) or two (`regression`/`endpoints`).
+> Calling with the default `methods` (`"kalman"`, an explicit single method) against a
+> history with **zero** weight entries throws (`kalman: requires at least one weigh-in
+> entry`) rather than skipping. Pass `methods: "all"` to get a graceful result instead — each
+> unsatisfied method reports as `skipped` with a reason rather than raising.
+
+> Data sources: on the Claude iOS app, the native Apple Health integration supplies weight
+> and dietary energy directly; elsewhere, paste an export from your logging app.
+
+### `kalman` detail fields
+
+| Field | Type | Meaning |
+|---|---|---|
+| `ci95_kcal` | `[number, number]` | 95% confidence interval on the current TDEE estimate |
+| `change_28d_kcal` | number \| null | TDEE drift over the trailing 28 smoothed days; `null` until 29+ days of history exist |
+| `true_weight_kg` | number | RTS-smoothed ("true", denoised) body weight as of the most recent day |
+| `true_weight_ci95_kg` | number | half-width of the 95% CI on true weight |
+| `rate_kg_per_week` | number | weighted-least-squares slope over the trailing 14 smoothed days |
+| `rate_ci95_kg_per_week` | `[number, number]` | 95% CI on the weekly rate |
+| `mean_intake_kcal_14d` | number \| null | mean of the *conditioned* (post-gating) intake used by the filter over the trailing 14 days |
+| `implied_daily_balance_kcal` | number \| null | `mean_intake_kcal_14d − tdee` |
+| `prior_tdee_kcal` | number | the prior actually seeded into the filter — either your `prior_tdee_kcal` input, or a ~33 kcal/kg fallback from the first weigh-in |
+| `data_quality.days_in_model` | integer | days since the first weigh-in in the series |
+| `data_quality.weight_logging_rate_28d` | number (0–1) | fraction of the trailing 28 days with a weigh-in |
+| `data_quality.intake_logging_rate_28d` | number (0–1) | fraction of the trailing 28 days with a clean (ungated) logged intake |
+| `data_quality.flagged_intake_days` | array | `{ date, logged_kcal, reason }`; `reason` is `"exceeds_median_plus_3mad"` (believed, kept) or `"exceeds_3x_tdee"` (rejected, imputed) |
+| `data_quality.status` | `"ok" \| "low_confidence" \| "paused"` | see below |
+| `data_quality.last_confident` | `{ asOf, tdee, tdeeCi95 }` \| null | the most recent non-paused day's estimate; populated only when `status` is `"paused"` |
+| `kcal_per_kg` | number | `7700` — the energy-density constant (`RHO`) used for this run |
+| `symmetric_rho` | boolean | always `true`; documents that `RHO` is not split by gain/loss direction |
+| `q_e` | number | `144` — the TDEE process-noise variance (the filter's responsiveness knob) used for this run |
+
+`data_quality.status`:
+
+- **`ok`** — at least 21 days of history, at least 21 actual weigh-in observations, and a
+  TDEE CI95 no wider than 400 kcal.
+- **`low_confidence`** — one of those thresholds isn't met yet (e.g. early in a series, or a
+  sparse weigh-in cadence keeps the CI wide).
+- **`paused`** — more than 3 of the last 7 days had missing or gated intake; the current TDEE
+  estimate is stale, and `last_confident` reports the last trustworthy day.
+
+## Breaking changes in 0.4.0
+
+- **Default `methods` changed from `"all"` to `"kalman"`.** The tool used to default to
+  running the window methods (`regression` + `endpoints`) together; it now defaults to the
+  `kalman` estimate alone. Pass `methods: "all"` to run all three, or
+  `methods: ["regression","endpoints"]` to reproduce the old comparison-only default.
+- **`entries[].weight` and `entries[].kcal` are now optional** — each entry needs at least
+  one of the two (previously both were required on every entry). This is a relaxation, not a
+  tightening, but it changes the input schema.
+- **New optional `prior_tdee_kcal` input** to seed the filter from an existing formula
+  estimate (e.g. the `tdee` tool's output).
+- Because the new default resolves to a single explicit method, a zero-weigh-in history now
+  **throws** instead of silently falling back — see the callout above.
 
 ## Example
 
@@ -43,7 +119,7 @@ const at = REGISTRY.get("adaptive-tdee")!;
 at.compute(at.input.parse({
   entries: [
     { date: "2026-01-01", weight: { value: 80, unit: "kg" }, kcal: 2500 },
-    // ... one entry per day, 10+ total
+    // ... one entry per day, 10+ total; weight and/or kcal per day
   ],
 }));
 ```
@@ -107,40 +183,49 @@ Call the `adaptive-tdee` tool with these arguments:
 {
   "results": [
     {
-      "method": "regression",
-      "value": 2885,
+      "method": "kalman",
+      "value": 2781,
       "unit": "kcal/day",
       "detail": {
-        "mean_intake_kcal": 2500,
-        "weight_change_kg_per_week": -0.35,
-        "span_days": 14,
-        "n_entries": 14,
-        "kcal_per_kg": 7700
-      }
-    },
-    {
-      "method": "endpoints",
-      "value": 2885,
-      "unit": "kcal/day",
-      "detail": {
-        "mean_intake_kcal": 2500,
-        "weight_change_kg_per_week": -0.35,
-        "span_days": 14,
-        "n_entries": 14,
-        "kcal_per_kg": 7700
+        "ci95_kcal": [2278, 3284],
+        "change_28d_kcal": null,
+        "true_weight_kg": 79.42,
+        "true_weight_ci95_kg": 0.56,
+        "rate_kg_per_week": -0.28,
+        "rate_ci95_kg_per_week": [-0.49, -0.06],
+        "mean_intake_kcal_14d": 2500,
+        "implied_daily_balance_kcal": -281,
+        "prior_tdee_kcal": 2640,
+        "data_quality": {
+          "days_in_model": 14,
+          "weight_logging_rate_28d": 1,
+          "intake_logging_rate_28d": 1,
+          "flagged_intake_days": [],
+          "status": "low_confidence",
+          "last_confident": null
+        },
+        "kcal_per_kg": 7700,
+        "symmetric_rho": true,
+        "q_e": 144
       }
     }
   ],
   "consensus": {
-    "mean": 2885,
-    "median": 2885,
-    "min": 2885,
-    "max": 2885,
-    "n": 2
+    "mean": 2781,
+    "median": 2781,
+    "min": 2781,
+    "max": 2781,
+    "n": 1
   },
   "skipped": []
 }
 ```
+
+Only 14 days in — `status` is `"low_confidence"` (fewer than 21 days/observations); it
+tightens to `"ok"` as more history accumulates. Add `"methods": "all"` to the request above
+to run `regression` and `endpoints` alongside `kalman` for comparison (each currently reports
+2885 kcal/day on this series — the window methods and the Kalman filter agree closely once
+the series is this clean).
 
 ## Call it another way
 

@@ -2,7 +2,7 @@
   "manifest_version": "0.2",
   "name": "fitness-tools",
   "display_name": "Fitness Tools",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "Deterministic fitness calculators: TDEE, adaptive TDEE, body fat, 1RM, macros, and more — published formulas with consensus.",
   "author": {
     "name": "AJ Wallace",

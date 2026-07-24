@@ -23,6 +23,12 @@ jobs:
           tar -xzf mcp-publisher.tar.gz mcp-publisher
           sudo mv mcp-publisher /usr/local/bin/
 
+      # server.json's committed version is whatever the last local build wrote.
+      # Sync it from package.json here so the registry always receives the real
+      # released version (0.3.3 was burned by publishing a premature sync).
+      - name: Sync server.json version
+        run: node apps/mcp/scripts/sync-mcpb-version.mjs
+
       - name: Publish to MCP registry
         working-directory: apps/mcp
         run: |

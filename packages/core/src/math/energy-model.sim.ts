@@ -2,12 +2,7 @@
 // model): weight via the energy identity + AR(1) water + white scale noise.
 // Not exported from the package barrel.
 import { KCAL_PER_KG } from "./adaptive.js";
-
-export interface KalmanDayLike {
-	date: string;
-	weightKg: number | null;
-	intakeKcal: number | null;
-}
+import type { KalmanDay } from "./energy-model.js";
 
 /** Deterministic LCG (no Math.random — CI must be reproducible). */
 export function lcg(seed: number) {
@@ -39,7 +34,7 @@ export interface SimOpts {
 	seed?: number;
 }
 
-export interface Sim { days: KalmanDayLike[]; trueW: number[]; trueT: number[] }
+export interface Sim { days: KalmanDay[]; trueW: number[]; trueT: number[] }
 
 export function simulate(o: SimOpts): Sim {
 	const rnd = lcg(o.seed ?? 42);
@@ -47,7 +42,7 @@ export function simulate(o: SimOpts): Sim {
 	const phi = o.arPhi ?? 0.85;
 	const arSigma = o.arSigmaKg ?? 0.4;
 	const whiteSigma = o.whiteSigmaKg ?? 0.3;
-	const days: KalmanDayLike[] = [];
+	const days: KalmanDay[] = [];
 	const trueW: number[] = [];
 	const trueT: number[] = [];
 	let w = o.w0Kg;

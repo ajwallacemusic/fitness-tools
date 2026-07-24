@@ -43,3 +43,4 @@ export * from "./math/potential.js";
 export * from "./math/indices.js";
 export * from "./math/plates.js";
 export * from "./math/adaptive.js";
+export * from "./math/energy-model.js";

@@ -28,6 +28,9 @@ may elevate this release to 1.0.0 instead):
   weigh-ins now throws (`kalman: requires at least one weigh-in entry`) instead of silently
   falling back to the window methods; pass `methods: "all"` for a graceful
   empty-results-with-`skipped` response instead.
+- Entry dates must now span at most 10 years (3660 days), earliest to latest; wider
+  histories throw a `DomainError` (previously accepted, at pathological cost — an unbounded
+  span expanded a per-day calendar large enough to exhaust a Workers isolate).
 
 `regression` and `endpoints` are unchanged and remain available as comparison methods.
 

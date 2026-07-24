@@ -20,7 +20,7 @@ const RHO = KCAL_PER_KG; // 7700 kcal per kg of body-mass change, symmetric
 // Tuning (kg-native spec values).
 const DEFAULT_R_KG2 = 0.4;    // scale observation noise (σ ≈ 0.63 kg)
 const DEFAULT_QW_KG2 = 0.005; // energy-identity model error (σ ≈ 0.07 kg/day)
-const DEFAULT_QE = 144;       // TDEE drift — the responsiveness knob (σ ≈ 12)
+export const DEFAULT_QE = 144; // TDEE drift — the responsiveness knob (σ ≈ 12)
 
 const LOW_INTAKE_FRAC = 0.4;   // below × EWMA → partial log, treated missing
 const MAD_K = 3 * 1.4826;      // high-day gate: median + 3σ-equivalent

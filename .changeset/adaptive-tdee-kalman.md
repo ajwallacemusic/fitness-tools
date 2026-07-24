@@ -32,4 +32,7 @@ may elevate this release to 1.0.0 instead):
 `regression` and `endpoints` are unchanged and remain available as comparison methods.
 
 `@almostjacked/fitness-tools-mcp` bumps patch to re-export the updated core package; the MCP
-tool surface (schema, description) picks up the same input/output changes transitively.
+tool surface (schema, description) picks up the same input/output changes transitively. Note
+that this means the mcp package's patch bump also carries the same breaking tool-surface
+change through to MCP clients (a pre-1.0 semver judgment call — like the core package, this
+may be elevated to a minor/major release instead).

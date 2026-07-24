@@ -17,7 +17,7 @@ change, using the energy-balance identity `TDEE = intake − stored energy`
 | Field | Type | Notes |
 |---|---|---|
 | `entries` | array (10–400) | one per day: `{ date, weight?, kcal? }` |
-| `entries[].date` | string | `YYYY-MM-DD`; gaps are fine, duplicates are an error |
+| `entries[].date` | string | `YYYY-MM-DD`; gaps are fine, duplicates are an error; the earliest-to-latest span across all entries must be **10 years (3660 days) or less** |
 | `entries[].weight` | `{ value, unit }` | optional — `kg` or `lb` |
 | `entries[].kcal` | number | optional — calories logged for that date |
 | `window_days` | integer | 3–14, default 7 — smoothing window for `endpoints`; unused by `kalman` |

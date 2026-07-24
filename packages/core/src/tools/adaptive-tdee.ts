@@ -3,7 +3,7 @@ import {
   KCAL_PER_KG, endpointSlopeKgPerDay, energyBalanceTdee, olsSlopeKgPerDay,
   type WeightPoint,
 } from "../math/adaptive.js";
-import { runKalmanEnergyModel, type KalmanDay } from "../math/energy-model.js";
+import { runKalmanEnergyModel, DEFAULT_QE, type KalmanDay } from "../math/energy-model.js";
 import { MassSchema, massKg } from "../math/units.js";
 import { computeConsensus, roundTo } from "../math/stats.js";
 import { DomainError } from "../errors.js";
@@ -21,6 +21,12 @@ const REASONS: Record<string, string> = {
 };
 
 const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
+
+// toKalmanDays materializes one entry per calendar day between the earliest
+// and latest entry date (to give the filter a dense daily series), so an
+// unbounded date span is a memory/CPU bomb — bound it well under any
+// plausible logging history.
+const MAX_DATE_SPAN_DAYS = 3660; // 10 years
 
 // BREAKING (0.4.0): weight and kcal are now optional per entry (>=1 of the two);
 // default methods is "kalman" (was "all" over the window methods).
@@ -55,13 +61,23 @@ export const AdaptiveTdeeOutput = z.object({
 });
 export type AdaptiveTdeeOutputT = z.output<typeof AdaptiveTdeeOutput>;
 
+// Computes the inclusive calendar-day span between the earliest and latest
+// entry date. Called in `compute` before any method dispatch (and before
+// `toKalmanDays` materializes a per-day array) so all methods share the guard.
+function dateSpanDays(inp: AdaptiveTdeeInputT): number {
+  const stamps = inp.entries.map((e) => Date.parse(`${e.date}T00:00:00Z`));
+  const min = Math.min(...stamps);
+  const max = Math.max(...stamps);
+  return Math.round((max - min) / 86_400_000) + 1;
+}
+
 function toPoints(inp: AdaptiveTdeeInputT): { points: WeightPoint[]; meanKcal: number | null } {
   const stamps = inp.entries.map((e) => ({
     t: Date.parse(`${e.date}T00:00:00Z`), e,
   }));
   const seen = new Set<number>();
   for (const s of stamps) {
-    if (seen.has(s.t)) throw new DomainError("duplicate date in entries");
+    if (seen.has(s.t)) throw new DomainError(`duplicate date in entries: ${s.e.date}`);
     seen.add(s.t);
   }
   stamps.sort((a, b) => a.t - b.t);
@@ -75,6 +91,9 @@ function toPoints(inp: AdaptiveTdeeInputT): { points: WeightPoint[]; meanKcal: n
 }
 
 function toKalmanDays(inp: AdaptiveTdeeInputT): KalmanDay[] {
+  // Relies on `toPoints` having already rejected duplicate dates (called
+  // earlier in `compute`) — the Map.set below is last-write-wins per day,
+  // which would silently drop a duplicate entry rather than erroring.
   const stamps = inp.entries
     .map((e) => ({ t: Date.parse(`${e.date}T00:00:00Z`), e }))
     .sort((a, b) => a.t - b.t);
@@ -93,9 +112,13 @@ function toKalmanDays(inp: AdaptiveTdeeInputT): KalmanDay[] {
 }
 
 export function compute(inp: AdaptiveTdeeInputT): AdaptiveTdeeOutputT {
+  const span = dateSpanDays(inp);
+  if (span > MAX_DATE_SPAN_DAYS) {
+    throw new DomainError(`date span exceeds 10 years (${MAX_DATE_SPAN_DAYS} days)`);
+  }
   const { points, meanKcal } = toPoints(inp);
-  const info = (slope: number) => ({
-    mean_intake_kcal: roundTo(meanKcal as number, 0),
+  const info = (slope: number, mean: number) => ({
+    mean_intake_kcal: roundTo(mean, 0),
     weight_change_kg_per_week: roundTo(slope * 7, 3),
     span_days: points[points.length - 1].day - points[0].day + 1,
     n_entries: points.length,
@@ -127,14 +150,14 @@ export function compute(inp: AdaptiveTdeeInputT): AdaptiveTdeeOutputT {
           },
           kcal_per_kg: KCAL_PER_KG,
           symmetric_rho: true,
-          q_e: 144,
+          q_e: DEFAULT_QE,
         },
       ];
     }
     if (method === "regression") {
       if (points.length < 2 || meanKcal == null) return null;
       const slope = olsSlopeKgPerDay(points);
-      return [energyBalanceTdee(meanKcal, slope), info(slope)];
+      return [energyBalanceTdee(meanKcal, slope), info(slope, meanKcal)];
     }
     if (method === "endpoints") {
       if (points.length < 2 || meanKcal == null) return null;
@@ -144,7 +167,7 @@ export function compute(inp: AdaptiveTdeeInputT): AdaptiveTdeeOutputT {
       } catch {
         return null; // span too short -> skipped with REASONS.endpoints
       }
-      return [energyBalanceTdee(meanKcal, slope), info(slope)];
+      return [energyBalanceTdee(meanKcal, slope), info(slope, meanKcal)];
     }
     throw new DomainError(`unknown method: ${method}`);
   };
@@ -165,6 +188,8 @@ export const tool: Tool<AdaptiveTdeeInputT, AdaptiveTdeeOutputT> = {
     "handles missing days, gates outliers, and reports uncertainty (CI95) alongside " +
     "denoised true weight; regression/endpoints are simple window-based estimates kept " +
     "for comparison. Use instead of formula TDEE once real logged data exists. " +
+    "Each entry needs at least one of weight/kcal (not necessarily both). " +
+    "Entry dates must span 10 years or less (earliest to latest). " +
     "Note: all methods need at least one weigh-in (kalman) or two (regression/endpoints) " +
     "— a history with zero weight entries throws under the kalman default; pass " +
     "methods:'all' to get a graceful empty/skipped result instead.",

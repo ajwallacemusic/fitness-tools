@@ -92,4 +92,27 @@ describe("adaptive-tdee tool v2", () => {
 		const noWeights = series(20, 80, 0, 2500).map(({ weight: _w, ...rest }) => rest);
 		expect(() => tool.compute(AdaptiveTdeeInput.parse({ entries: noWeights, methods: ["kalman"] }))).toThrow(/weigh/);
 	});
+
+	test("a date span beyond 10 years is rejected before any per-day materialization", () => {
+		const entries = [
+			{ date: "0001-01-01", weight: { value: 80, unit: "kg" as const }, kcal: 2500 },
+			{ date: "9999-12-31", weight: { value: 80, unit: "kg" as const }, kcal: 2500 },
+			...series(8, 80, 0, 2500),
+		];
+		expect(() => tool.compute(AdaptiveTdeeInput.parse({ entries }))).toThrow(/span/);
+	});
+
+	test("a span just under 10 years (400 entries every 9 days) computes fine", () => {
+		const entries = Array.from({ length: 400 }, (_, i) => {
+			const d = new Date(Date.UTC(2000, 0, 1));
+			d.setUTCDate(d.getUTCDate() + i * 9);
+			return {
+				date: d.toISOString().slice(0, 10),
+				weight: { value: 80 - 0.001 * i, unit: "kg" as const },
+				kcal: 2500,
+			};
+		});
+		const out = tool.compute(AdaptiveTdeeInput.parse({ entries }));
+		expect(out.results[0].method).toBe("kalman");
+	});
 });
